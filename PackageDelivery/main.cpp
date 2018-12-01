@@ -5,17 +5,14 @@
 #include "package.h"
 #include <random>
 #include <math.h>
-#include <fstream>
-#include <string>
+#include "init.h"
 #include <algorithm>
-#include <sstream>
+
 
 
 ///////////////////////////////////////////////
 double goalFunction(std::vector<std::vector<int>> costMatrix, std::vector<Point>& route);
 template<typename T> T random(T min, T max);
-std::vector<std::vector<int>> costMatrixReadCSV();
-void initFromFile(std::vector<Point>& _points);
 std::vector<Point> generateStart(int s);
 std::vector<Point> generateNeighbor(std::vector<Point>& old);
 ///////////////////////////////////////////////
@@ -24,10 +21,12 @@ int main()
 {
 	//---INIT DATABASE VECTOR---
 	std::vector<Point> points;
-	//load data
+
+	//---LOAD DATA FROM FILES---
+	initFromFile(points);
 	std::vector<std::vector<int>> costMatrix = costMatrixReadCSV();
 
-
+	
 	std::cout << "Macierz" << std::endl;
 	for (int i = 0; i < costMatrix.size(); i++)
 	{
@@ -87,6 +86,7 @@ int main()
 	}
 
 	//WYNIKI
+	
 	return 0;
 }
 ///////////////////////////////////////
@@ -150,65 +150,11 @@ std::vector<Point> generateStart(int s)
 	return start;
 }
 /////////////////////////////////////////////////////////
-std::vector<std::vector<int>> costMatrixReadCSV()
-{
-	std::ifstream file("C:/Users/Jakub/Desktop/Studia/MMWD/PackageDelivery/data1.csv");
-	std::vector<std::vector<int>> matrix;
 
-	std::string bufferStrLine;
-	std::string bufferStr;
-	std::vector<int> bufferInt;
-
-
-	while (std::getline(file, bufferStrLine))
-	{
-		bufferInt.clear();
-		std::istringstream bufferStream(bufferStrLine);
-		while (std::getline(bufferStream, bufferStr, ','))
-		{
-			bufferInt.push_back(std::stoi(bufferStr));
-		}
-		matrix.push_back(bufferInt);
-	}
-
-	return matrix;
-}
 /////////////////////////////////////////////////////////
-void initFromFile(std::vector<Point>& _points)
-{
-	std::ifstream file("DATABASE.txt");
-	std::string bufferStrLine;
-	std::string bufferStr;
-	std::vector<int> bufferInt;
-	int pointID = 0;
 
-	while (std::getline(file, bufferStrLine))
-	{
-		if (bufferStrLine.compare("POINT") == 0)
-		{
-			Point tmpPoint = Point(pointID);
-			pointID++;
-			while (std::getline(file, bufferStrLine))
-			{
-				if (bufferStrLine.compare("POINT") == 0){ break; }
-				else
-				{
-					bufferInt.clear();
-					std::istringstream bufferStream(bufferStrLine);
-					while (std::getline(bufferStream, bufferStr, ','))
-					{
-						bufferInt.push_back(std::stoi(bufferStr));
-					}
-					Package tmpPackage = Package(bufferInt.at(0), bufferInt.at(1));
-					tmpPoint.addPackage(tmpPackage);
-				}
-			}
-
-			_points.push_back(tmpPoint);
-		}
-	}
-}
 ///////////////////////////////////////////////////////
+
 std::vector<Point> generateNeighbor(std::vector<Point>& old)
 {
 	double option = random<double>(0, 1);
