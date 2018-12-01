@@ -8,13 +8,16 @@ class Point
 {
 private:
 	int ID;
-	std::vector<Package> packages;
+	std::vector<Package> availablePackages;
+	std::vector<Package> originalPackages;
+
 public:
 	Point(int Id);
 	Point(int Id, std::vector<Package> packages_);
 
 	int getID();
-	std::vector<Package> getPackages();
+	std::vector<Package> getAvailablePackages();
+	std::vector<Package> getOriginalPackages();
 	void addPackage(Package package);
 	void deletePackage(Package package);
 };
