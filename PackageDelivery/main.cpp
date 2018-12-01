@@ -16,6 +16,7 @@
 double goalFunction(std::vector<std::vector<int>> costMatrix, std::vector<Point>& route);
 template<typename T> T random(T min, T max);
 std::vector<std::vector<int>> costMatrixReadCSV();
+void initFromFile(std::vector<Point>& _points);
 std::vector<Point> generateStart(int s);
 //std::vector<Point> generateNeighbor(std::vector<Point>& old);
 ///////////////////////////////////////////////
@@ -120,7 +121,7 @@ double goalFunction(std::vector<std::vector<int>> costMatrix, std::vector<Point>
 	}
 	for (unsigned int i = 0; i < route.size() - 1; i++)
 	{
-		std::vector<Package> package = route[i].getPackages();
+		std::vector<Package> package = route[i].getAvailablePackages();
 		for (unsigned int j = 0; j < package.size(); j++)
 		{
 			auto it = find(towns.begin(), towns.end(), package[j].getDestination());
@@ -170,41 +171,39 @@ std::vector<std::vector<int>> costMatrixReadCSV()
 
 	return matrix;
 }
+/////////////////////////////////////////////////////////
+void initFromFile(std::vector<Point>& _points)
+{
+	std::ifstream file("DATABASE.txt");
+	std::string bufferStrLine;
+	std::string bufferStr;
+	std::vector<int> bufferInt;
+	int pointID = 0;
+
+	while (std::getline(file, bufferStrLine))
+	{
+		if (bufferStrLine.compare("POINT") == 0)
+		{
+			Point tmpPoint = Point(pointID);
+			pointID++;
+			while (std::getline(file, bufferStrLine))
+			{
+				if (bufferStrLine.compare("POINT") == 0){ break; }
+				else
+				{
+					bufferInt.clear();
+					std::istringstream bufferStream(bufferStrLine);
+					while (std::getline(bufferStream, bufferStr, ','))
+					{
+						bufferInt.push_back(std::stoi(bufferStr));
+					}
+					Package tmpPackage = Package(bufferInt.at(0), bufferInt.at(1));
+					tmpPoint.addPackage(tmpPackage);
+				}
+			}
+
+			_points.push_back(tmpPoint);
+		}
+	}
+}
 ///////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
