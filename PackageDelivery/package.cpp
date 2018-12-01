@@ -4,8 +4,8 @@ int Package::number = 0;
 Package::Package(int sour, int dest)
 	: destination(dest), source(sour)
 {
-	number++;
 	ID = number;
+	number++;
 }
 /////////////////////////////////////////
 int Package::getID() { return ID; }

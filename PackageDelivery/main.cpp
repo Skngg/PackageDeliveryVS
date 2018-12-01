@@ -4,29 +4,27 @@
 #include "deliverer.h"
 #include "package.h"
 #include <random>
-#include <math.h>
-#include "init.h"
+#include <fstream>
+#include <string>
 #include <algorithm>
+#include <sstream>
+#include <ctime>
 
 
 
 ///////////////////////////////////////////////
 double goalFunction(std::vector<std::vector<int>> costMatrix, std::vector<Point>& route);
 template<typename T> T random(T min, T max);
+std::vector<std::vector<int>> costMatrixReadCSV();
+void initFromFile(std::vector<Point>& _points);
 std::vector<Point> generateStart(int s);
-std::vector<Point> generateNeighbor(std::vector<Point>& old);
+//std::vector<Point> generateNeighbor(std::vector<Point>& old);
 ///////////////////////////////////////////////
-
 int main()
 {
-	//---INIT DATABASE VECTOR---
-	std::vector<Point> points;
-
-	//---LOAD DATA FROM FILES---
-	initFromFile(points);
-	std::vector<std::vector<int>> costMatrix = costMatrixReadCSV();
-
-	
+	srand(time(NULL));
+	//load data
+	/*std::vector<std::vector<int>> costMatrix = costMatrixReadCSV();
 	std::cout << "Macierz" << std::endl;
 	for (int i = 0; i < costMatrix.size(); i++)
 	{
@@ -42,6 +40,7 @@ int main()
 	double T = T_o;
 	double T_min = 20.0;
 	std::vector<Point> x_a = generateStart(4);
+
 	///////////////////////////////////////
 	std::cout << "Startowe dane" << std::endl;
 	for (unsigned int i = 0; i < x_a.size(); i++)
@@ -49,12 +48,12 @@ int main()
 		std::cout << x_a[i].getID() << std::endl;
 	}
 	std::cout << "Startowe dane_END" << std::endl;
-	getchar();
+	//getchar();
 	///////////////////////////////////////
 	std::vector<Point> x_opt = x_a;
 	double Q_a = goalFunction(costMatrix, x_a);
 	std::cout << "Q_A: " << Q_a << "            Q_A_END" << std::endl;
-	getchar();
+	//getchar();
 	double Q_opt = Q_a;
 	int k = 100;
 	double alpha = 0.999;
@@ -63,7 +62,7 @@ int main()
 	{
 		for (int i = 0; i < k; i++)
 		{
-			std::vector<Point> x_n = generateNeighbor(x_a);
+			//std::vector<Point> x_n = generateNeighbor(x_a);
 			double Q_n = goalFunction(costMatrix, x_n);
 			double delta = Q_n - Q_a;
 			if (delta < 0)
@@ -85,8 +84,7 @@ int main()
 		T = T * alpha;
 	}
 
-	//WYNIKI
-	
+	//WYNIKI*/
 	return 0;
 }
 ///////////////////////////////////////
@@ -150,52 +148,62 @@ std::vector<Point> generateStart(int s)
 	return start;
 }
 /////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////
-
-std::vector<Point> generateNeighbor(std::vector<Point>& old)
+std::vector<std::vector<int>> costMatrixReadCSV()
 {
-	double option = random<double>(0, 1);
-	if (option < 0.25) //
+	std::ifstream file("C:/Users/Jakub/Desktop/Studia/MMWD/PackageDelivery/data1.csv");
+	std::vector<std::vector<int>> matrix;
+
+	std::string bufferStrLine;
+	std::string bufferStr;
+	std::vector<int> bufferInt;
+
+
+	while (std::getline(file, bufferStrLine))
 	{
-		;
+		bufferInt.clear();
+		std::istringstream bufferStream(bufferStrLine);
+		while (std::getline(bufferStream, bufferStr, ','))
+		{
+			bufferInt.push_back(std::stoi(bufferStr));
+		}
+		matrix.push_back(bufferInt);
+	}
+
+	return matrix;
+}
+/////////////////////////////////////////////////////////
+void initFromFile(std::vector<Point>& _points)
+{
+	std::ifstream file("DATABASE.txt");
+	std::string bufferStrLine;
+	std::string bufferStr;
+	std::vector<int> bufferInt;
+	int pointID = 0;
+
+	while (std::getline(file, bufferStrLine))
+	{
+		if (bufferStrLine.compare("POINT") == 0)
+		{
+			Point tmpPoint = Point(pointID);
+			pointID++;
+			while (std::getline(file, bufferStrLine))
+			{
+				if (bufferStrLine.compare("POINT") == 0){ break; }
+				else
+				{
+					bufferInt.clear();
+					std::istringstream bufferStream(bufferStrLine);
+					while (std::getline(bufferStream, bufferStr, ','))
+					{
+						bufferInt.push_back(std::stoi(bufferStr));
+					}
+					Package tmpPackage = Package(bufferInt.at(0), bufferInt.at(1));
+					tmpPoint.addPackage(tmpPackage);
+				}
+			}
+
+			_points.push_back(tmpPoint);
+		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+///////////////////////////////////////////////////////
