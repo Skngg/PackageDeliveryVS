@@ -33,6 +33,7 @@ public:
 	double goal_Function(std::vector<std::pair<int, std::vector<int>>>);
 	void solve_problem();
 	void generate_start_solution();
+	std::vector<std::pair<int, std::vector<int>>> modify_solution(std::vector<std::pair<int, std::vector<int>>>& currentSolution);
 	int random_in_range(int, int);
 	double random_01();
 	Package get_Package_By_Id(int id);
