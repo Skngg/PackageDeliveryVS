@@ -4,11 +4,12 @@
 #include "deliverer.h"
 #include "package.h"
 #include <random>
-#include <math.h>
 #include <fstream>
 #include <string>
 #include <algorithm>
 #include <sstream>
+#include <ctime>
+
 
 
 ///////////////////////////////////////////////
@@ -16,12 +17,13 @@ double goalFunction(std::vector<std::vector<int>> costMatrix, std::vector<Point>
 template<typename T> T random(T min, T max);
 std::vector<std::vector<int>> costMatrixReadCSV();
 std::vector<Point> generateStart(int s);
-std::vector<Point> generateNeighbor(std::vector<Point>& old);
+//std::vector<Point> generateNeighbor(std::vector<Point>& old);
 ///////////////////////////////////////////////
-main()
+int main()
 {
+	srand(time(NULL));
 	//load data
-	std::vector<std::vector<int>> costMatrix = costMatrixReadCSV();
+	/*std::vector<std::vector<int>> costMatrix = costMatrixReadCSV();
 	std::cout << "Macierz" << std::endl;
 	for (int i = 0; i < costMatrix.size(); i++)
 	{
@@ -37,6 +39,7 @@ main()
 	double T = T_o;
 	double T_min = 20.0;
 	std::vector<Point> x_a = generateStart(4);
+
 	///////////////////////////////////////
 	std::cout << "Startowe dane" << std::endl;
 	for (unsigned int i = 0; i < x_a.size(); i++)
@@ -44,12 +47,12 @@ main()
 		std::cout << x_a[i].getID() << std::endl;
 	}
 	std::cout << "Startowe dane_END" << std::endl;
-	getchar();
+	//getchar();
 	///////////////////////////////////////
 	std::vector<Point> x_opt = x_a;
 	double Q_a = goalFunction(costMatrix, x_a);
 	std::cout << "Q_A: " << Q_a << "            Q_A_END" << std::endl;
-	getchar();
+	//getchar();
 	double Q_opt = Q_a;
 	int k = 100;
 	double alpha = 0.999;
@@ -58,7 +61,7 @@ main()
 	{
 		for (int i = 0; i < k; i++)
 		{
-			std::vector<Point> x_n = generateNeighbor(x_a);
+			//std::vector<Point> x_n = generateNeighbor(x_a);
 			double Q_n = goalFunction(costMatrix, x_n);
 			double delta = Q_n - Q_a;
 			if (delta < 0)
@@ -80,7 +83,7 @@ main()
 		T = T * alpha;
 	}
 
-	//WYNIKI
+	//WYNIKI*/
 	return 0;
 }
 ///////////////////////////////////////
@@ -168,14 +171,7 @@ std::vector<std::vector<int>> costMatrixReadCSV()
 	return matrix;
 }
 ///////////////////////////////////////////////////////
-std::vector<Point> generateNeighbor(std::vector<Point>& old)
-{
-	double option = random<double>(0, 1);
-	if (option < 0.25) //
-	{
-		;
-	}
-}
+
 
 
 
