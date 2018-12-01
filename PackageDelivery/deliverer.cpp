@@ -1,6 +1,7 @@
 #include "deliverer.h"
 #include <stdlib.h>
 #include <ctime>
+#include <algorithm>
 
 Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_)
 	:cost_Matrix(matrix_), org_Packages(packages_)
@@ -45,6 +46,87 @@ void Deliverer::generate_start_solution()
 		solution.push_back(std::pair<int, std::vector<int>>(point_number, packs));
 		
 	}
+}
+
+std::vector<std::pair<int, std::vector<int>>> Deliverer::modify_solution(std::vector<std::pair<int, std::vector<int>>>& currentSolution)
+{
+	std::vector<std::pair<int, std::vector<int>>> newSolution = currentSolution;
+	std::vector<std::pair<int, std::vector<int>>>::iterator it = newSolution.begin();
+
+	int howModify = random_in_range(0, 4);
+	int number_of_points = points.size();
+
+
+
+	if (howModify == 0)			// INSERT ADDITIONAL WAYPOINT TO SOLUTION
+	{
+		int newWaypoint = random_in_range(0, number_of_points);
+		int whereInsert = random_in_range(0, number_of_points);
+		int number_of_packages_in_point = points.at(newWaypoint).getPackages().size();
+
+		std::vector<int> packs;
+		if (number_of_packages_in_point != 0)
+		{
+
+
+			int number_of_packages = random_in_range(0, number_of_packages_in_point);
+			for (int j = 0; j < number_of_packages; j++)
+			{
+				int which_package = random_in_range(0, points.at(newWaypoint).getPackages().size());
+				packs.push_back(points.at(newWaypoint).getPackages().at(which_package).getID());
+				points.at(newWaypoint).delete_Package_By_Id(points.at(newWaypoint).getPackages().at(which_package).getID());
+			}
+		}
+		std::pair<int, std::vector<int>> newInstruction = std::pair<int, std::vector<int>>(newWaypoint, packs);
+
+		newSolution.insert(it + whereInsert, newInstruction);
+	}
+	else if (howModify == 1)	// ERASE ONE POINT
+	{
+		int whereErase = random_in_range(0, number_of_points);
+
+		newSolution.erase(it + whereErase);
+	}
+	else if (howModify == 2)	// SWAP 2 POINTS
+	{
+		int pointOne = random_in_range(0, number_of_points);
+		int pointTwo;
+		do
+		{
+			int pointTwo = random_in_range(0, number_of_points);
+		} while (pointTwo == pointOne);
+
+		std::iter_swap(it + pointOne, it + pointTwo);
+	}
+	else if (howModify == 3)	// MOD PACKAGES TO TAKE
+	{
+		int whereModify = random_in_range(0, number_of_points);
+		int number_of_packages_in_point = points.at(whereModify).getPackages().size();
+		
+		if (number_of_packages_in_point != 0)
+		{
+			std::vector<int> newPacks = std::get<1>(newSolution.at(whereModify)); // COPY CURRENT PACKS FOR MODIFICATION
+			int whichPackModify = random_in_range(0, number_of_packages_in_point);
+			if (std::find(newPacks.begin(), newPacks.end(), whichPackModify) != newPacks.end())
+			{
+				// ---IF currentPacks CONTAINS whickPackModify---
+				newPacks.erase(newPacks.begin() + whichPackModify);
+			}
+			else
+			{
+				newPacks.push_back(whichPackModify);
+			}
+		}	
+	}
+	else						// CHANGE ONE POINT
+	{
+		int whereModify = random_in_range(0, number_of_points);
+		int newWaypoint = random_in_range(0, number_of_points);
+
+		//		TBD
+	}
+
+
 }
 ////////////////////////////////////////
 /* FUNKCJE POMOCNICZE */

@@ -3,6 +3,21 @@
 void initFromFile(std::vector<Point>& _points)
 {
 	std::ifstream file("../DATABASE.txt");
+	/*
+		DATABSE FILE FORMAT BELOW:
+
+			--BEGINNIG OF FILE--
+		POINT		--OPENING IDENTIFIER--
+		SRC,DST		--PACKAGE DETAILS (SOURCE POINT ID, DESTINATION POINT ID)--
+		(...)
+		POINT		--CLOSING IDENTIFIER--
+		(..)
+		POINT		--OPENING IDENTIFIER--
+		(...)
+		POINT		--CLOSING IDENTIFIER--
+			--END OF FILE--
+
+	*/
 	std::string bufferStrLine;
 	std::string bufferStr;
 	std::vector<int> bufferInt;
@@ -38,7 +53,23 @@ void initFromFile(std::vector<Point>& _points)
 
 std::vector<std::vector<int>> costMatrixReadCSV()
 {
-	std::ifstream file("../data1.csv");
+	std::ifstream file("../DATA.csv");
+	/*
+		COST MATRIX FILE FORMAT BELOW:
+		//NO WHITECHARS BETWEEN VALUES
+		// * - BIG VALUE
+			--BEGINNIG OF FILE--
+					  0		1	2	(...)	LASTPOINTID
+		0			| BV*,	1,	3,			8
+		1			| 1,	BV,	4,			6
+		2			| 3,	4,	BV,			3
+		(...)
+		LASTPOINTID	| 8,	6,	3,			BV
+			--END OF FILE--
+
+	*/
+
+
 	std::vector<std::vector<int>> matrix;
 
 	std::string bufferStrLine;

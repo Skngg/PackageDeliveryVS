@@ -25,6 +25,7 @@ public:
 	//double goal_Function();
 	//void solve_problem();
 	void generate_start_solution();
+	std::vector<std::pair<int, std::vector<int>>> modify_solution(std::vector<std::pair<int, std::vector<int>>>& currentSolution);
 	/*FUNKCJE POMOCNICZE*/
 	int random_in_range(int, int);
 	double random_01();
