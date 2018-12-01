@@ -17,6 +17,7 @@ public:
 	int getID();
 	void reset();
 	std::vector<Package> getPackages();
+	std::vector<Package> getOrgPackages();
 	void addPackage(Package package);
 	void deletePackage(Package package);
 	Package take_Package(int id);

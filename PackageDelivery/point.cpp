@@ -12,21 +12,21 @@ Point::Point(int Id, std::vector<Package> packages_)
 /////////////////////////////////////////////////
 int Point::getID() { return ID; }
 /////////////////////////////////////////////////
-std::vector<Package> Point::getOriginalPackages() { return originalPackages; }
-std::vector<Package> Point::getAvailablePackages() { return availablePackages; }
+std::vector<Package> Point::getOrgPackages() { return org_packages; }
+std::vector<Package> Point::getPackages() { return packages; }
 //////////////////////////////////////////////////
 void Point::addPackage(Package package)
 {
-	availablePackages.push_back(package);
+	packages.push_back(package);
 }
 //////////////////////////////////////////////////
 void Point::deletePackage(Package package)
 {
-	for (unsigned int i = 0; i<availablePackages.size() - 1; i++)
+	for (unsigned int i = 0; i<packages.size() - 1; i++)
 	{
-		if (availablePackages[i].getID() == package.getID())
+		if (packages[i].getID() == package.getID())
 		{
-			availablePackages.erase(availablePackages.begin() + i);
+			packages.erase(packages.begin() + i);
 			break;
 		}
 	}
