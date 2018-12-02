@@ -41,8 +41,9 @@ int main()
 	Deliverer test(cost_matrix, packages);
 	test.print_Cost_Matrix();
 	test.print_Org_Packages();
-	test.print_Solution();
 	test.print_Points();
+	test.print_Solution();
+
 	
 	
 

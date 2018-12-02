@@ -61,9 +61,9 @@ void Deliverer::generate_start_solution()
 
 		if (number_of_packages_in_point != 0)
 		{
-			int number_of_packages = random_in_range(0, number_of_packages_in_point);
+			int number_of_packages = random_in_range(0, number_of_packages_in_point+1);
 
-			for (int j = 0; j < number_of_packages; j++)
+			for (int j = 1; j <=number_of_packages; j++)
 			{
 				int which_package = random_in_range(0, points.at(point_number).getPackages().size());
 				int id = points.at(point_number).getPackages().at(which_package).getID();
