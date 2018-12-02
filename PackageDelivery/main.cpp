@@ -28,7 +28,7 @@ int main()
 		{0, 1, 1, 100, 1},
 		{1, 0, 1, 100, 100},
 		{1, 1, 0, 100, 1},
-		{100, 100, 0, 100, 100},
+		{100, 100, 100, 0, 100},
 		{1, 100, 1,  100, 0}
 	};
 	std::vector<Package> packages = {
@@ -44,6 +44,7 @@ int main()
 	test.print_Points();
 	test.print_Solution();
 	std::cout << "GF: " << test.goal_Function(test.get_solution()) << std::endl;
+
 
 	
 	

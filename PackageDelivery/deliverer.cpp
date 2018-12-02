@@ -80,38 +80,29 @@ void Deliverer::generate_start_solution()
 ///////////////////////////////////////////////////////////////////////////////////
 std::vector<std::pair<int, std::vector<int>>> Deliverer::modify_solution(std::vector<std::pair<int, std::vector<int>>>& currentSolution)
 {
-	std::vector<std::pair<int, std::vector<int>>> newSolution = currentSolution;
-	std::vector<std::pair<int, std::vector<int>>>::iterator it = newSolution.begin();
 
 	int howModify = random_in_range(0, 4);
-	int number_of_points = points.size();
 
-
-
-	if (howModify == 0)			// INSERT ADDITIONAL WAYPOINT TO SOLUTION
-	{
-		
-	}
-	else if (howModify == 1)	// ERASE ONE POINT
-	{
-
-	}
-	else if (howModify == 2)	// SWAP 2 POINTS
-	{
-
-	}
-	else if (howModify == 3)	// MOD PACKAGES TO TAKE
-	{
-	
-	}
-	else						// CHANGE ONE POINT
-	{
-		int whereModify = random_in_range(0, number_of_points);
-		int newWaypoint = random_in_range(0, number_of_points);
-
-		//		TBD
-	}
-	return newSolution;
+		if (howModify == 0)			// INSERT ADDITIONAL WAYPOINT TO SOLUTION
+		{
+			return insert_Aditional_Waypoint_To_Solution(currentSolution);
+		}
+		else if (howModify == 1)	// ERASE ONE POINT
+		{
+			return erase_one_point(currentSolution);
+		}
+		else if (howModify == 2)	// SWAP 2 POINTS
+		{
+			return swap_2_points(currentSolution);
+		}
+		else if (howModify == 3)	// MOD PACKAGES TO TAKE
+		{
+			return mod_Packages_To_Take(currentSolution);
+		}
+		else						// CHANGE ONE POINT
+		{
+			return change_one_point(currentSolution);
+		}
 
 }
 
@@ -362,12 +353,49 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::mod_Packages_To_Take(st
 		{
 			// ---IF currentPacks CONTAINS whickPackModify---
 			newPacks.erase(newPacks.begin() + whichPackModify);
+
 		}
 		else
 		{
 			newPacks.push_back(whichPackModify);
 		}
 	}
+	return newSolution;
+}
+/////////////////////////////////////////////////////////////////////
+// CHANGE ONE POINT
+std::vector<std::pair<int, std::vector<int>>> Deliverer::change_one_point(std::vector<std::pair<int, std::vector<int>>>& currentSolution)
+{
+	std::vector<std::pair<int, std::vector<int>>> newSolution = currentSolution;
+	std::vector<std::pair<int, std::vector<int>>>::iterator it = newSolution.begin();
+
+	int number_of_points = currentSolution.size();
+
+	int whereModify = random_in_range(0, number_of_points);
+	int newWaypoint = random_in_range(0, points.size());
+	for (auto pack : currentSolution.at(whereModify).second)
+	{
+		add_Package_By_Id(pack);
+	}
+	newSolution.erase(it + whereModify);
+
+	int number_of_packages_in_point = points.at(newWaypoint).getPackages().size();
+	std::vector<int> packs;
+	if (number_of_packages_in_point != 0)
+	{
+
+		int number_of_packages = random_in_range(0, number_of_packages_in_point);
+		for (int j = 0; j < number_of_packages; j++)
+		{
+			int which_package = random_in_range(0, points.at(newWaypoint).getPackages().size());
+			packs.push_back(points.at(newWaypoint).getPackages().at(which_package).getID());
+			points.at(newWaypoint).delete_Package_By_Id(points.at(newWaypoint).getPackages().at(which_package).getID());
+		}
+	}
+	std::pair<int, std::vector<int>> newInstruction = std::pair<int, std::vector<int>>(newWaypoint, packs);
+
+	newSolution.insert(it + whereModify, newInstruction);
+
 	return newSolution;
 }
 

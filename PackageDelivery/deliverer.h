@@ -48,6 +48,7 @@ public:
 	std::vector<std::pair<int, std::vector<int>>> erase_one_point(std::vector<std::pair<int, std::vector<int>>>& currentSolution);
 	std::vector<std::pair<int, std::vector<int>>> swap_2_points(std::vector<std::pair<int, std::vector<int>>>& currentSolution);
 	std::vector<std::pair<int, std::vector<int>>> mod_Packages_To_Take(std::vector<std::pair<int, std::vector<int>>>& currentSolution);
+	std::vector<std::pair<int, std::vector<int>>> change_one_point(std::vector<std::pair<int, std::vector<int>>>& currentSolution);
 	////////////////////////////////////////////////////////////////////////
 	void print_Org_Packages();
 	void print_Cost_Matrix();
