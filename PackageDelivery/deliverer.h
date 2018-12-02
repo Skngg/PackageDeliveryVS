@@ -46,5 +46,7 @@ public:
 	void print_Org_Packages();
 	void print_Cost_Matrix();
 	void print_Solution();
+	void print_Points();
+
 };
 #endif //DELIVERER_H

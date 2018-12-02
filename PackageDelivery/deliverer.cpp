@@ -8,7 +8,7 @@ Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package>
 	:cost_Matrix(matrix_), org_Packages(packages_)
 {
 	std::cout<<"Poczatek konstruktora Deliverer"<<std::endl;
-	std::vector<std::vector<Package>> list_of_packages(cost_Matrix.size(), std::vector<Package>(cost_Matrix.size()));
+	std::vector<std::vector<Package>> list_of_packages(cost_Matrix.size(), std::vector<Package>());
 	for (auto pack : org_Packages)
 	{
 		int source = pack.getSource();
@@ -29,7 +29,7 @@ Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package>
 Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_, double t_min, double t_begin, double alfa_, int k_iter, double C1_not_taken, double C2_taken)
 	:cost_Matrix(matrix_), org_Packages(packages_), T_min(t_min), T_begin(t_begin), alfa(alfa_), k(k_iter), C1(C1_not_taken), C2(C2_taken)
 {
-	std::vector<std::vector<Package>> list_of_packages;
+	std::vector<std::vector<Package>> list_of_packages(cost_Matrix.size(), std::vector<Package>());
 	for (auto pack : org_Packages)
 	{
 		int source = pack.getSource();
@@ -49,7 +49,7 @@ Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package>
 //////////////////////////////////////////
 void Deliverer::generate_start_solution()
 {
-	int number_of_points = random_in_range(2, points.size());
+	int number_of_points = random_in_range(2, points.size()+1);
 
 	for (int i = 0; i < number_of_points; i++)
 	{
@@ -285,4 +285,19 @@ void Deliverer::print_Solution()
 		std::cout << std::endl;
 	}
 }
+////////////////////////////////////////////////////////////
+void Deliverer::print_Points()
+{
+	std::cout << "POINTS" << std::endl;
+	for (auto point : points)
+	{
+		std::cout << point.getID() << ": ";
+		for (auto x : point.getOrgPackages())
+		{
+			std::cout << x.getID() << "[" << x.getSource() << "->" << x.getDestination() << "], ";
+		}
+		std::cout << std::endl;
+	}
+}
+
 
