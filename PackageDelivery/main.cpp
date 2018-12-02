@@ -43,6 +43,7 @@ int main()
 	test.print_Org_Packages();
 	test.print_Points();
 	test.print_Solution();
+	std::cout << "GF: " << test.goal_Function(test.get_solution()) << std::endl;
 
 	
 	
