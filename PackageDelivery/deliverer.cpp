@@ -19,6 +19,7 @@ Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package>
 	{
 		points.push_back(Point(i, list_of_packages[i]));
 	}
+	reset();
 	generate_start_solution();
 	best_Solution = solution;
 	best_goal_function = goal_Function(solution);
@@ -39,7 +40,8 @@ Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package>
 	{
 		points.push_back(Point(i, list_of_packages[i]));
 	}
-	//generate_start_solution();
+	reset();
+	generate_start_solution();
 	best_Solution = solution;
 	best_goal_function = goal_Function(solution);
 }
@@ -52,6 +54,7 @@ void Deliverer::generate_start_solution()
 	for (int i = 0; i < number_of_points; i++)
 	{
 		int point_number = random_in_range(0, points.size());
+
 		int number_of_packages_in_point = points.at(point_number).getPackages().size();
 
 		std::vector<int> packs;
@@ -73,7 +76,7 @@ void Deliverer::generate_start_solution()
 		
 	}
 }
-
+///////////////////////////////////////////////////////////////////////////////////
 std::vector<std::pair<int, std::vector<int>>> Deliverer::modify_solution(std::vector<std::pair<int, std::vector<int>>>& currentSolution)
 {
 	std::vector<std::pair<int, std::vector<int>>> newSolution = currentSolution;
@@ -244,6 +247,42 @@ void Deliverer::solve_problem()
 			}
 		}
 		T *= alfa;
+	}
+}
+//////////////////////////////////////////////////////////////
+void Deliverer::print_Org_Packages()
+{
+	std::cout << "Paczki" << std::endl;
+	for (auto i : org_Packages)
+	{
+		std::cout << i.getID() << " : " << i.getSource() << " -> " << i.getDestination() << std::endl;
+	}
+}
+////////////////////////////////////////////////////////////
+void Deliverer::print_Cost_Matrix()
+{
+	std::cout << "COST MATRIX" << std::endl;
+	for (auto x : cost_Matrix)
+	{
+		for (auto y : x)
+		{
+			std::cout << y << " ";
+		}
+		std::cout << std::endl;
+	}
+}
+/////////////////////////////////////////////////////////////
+void Deliverer::print_Solution()
+{
+	std::cout << "SOLUTION" << std::endl;
+	for (auto x : solution)
+	{
+		std::cout << x.first << ": ";
+		for (auto y : x.second)
+		{
+			std::cout << y << " ";
+		}
+		std::cout << std::endl;
 	}
 }
 

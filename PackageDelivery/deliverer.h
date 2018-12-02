@@ -36,11 +36,15 @@ public:
 	int random_in_range(int, int);
 	double random_01();
 	Package get_Package_By_Id(int id);
-
+	///////////////////////////////////////////////////////////////////////
 	std::vector<Package> get_org_Packages() { return org_Packages; };
 	std::vector<std::vector<int>> get_cost_Matrix() { return cost_Matrix; };
 	std::vector<Point> get_points() { return points; };
 	std::vector<std::pair<int, std::vector<int>>> get_solution() { return solution; };
 	std::vector<std::pair<int, std::vector<int>>> get_best_Solution() { return best_Solution; };
+	////////////////////////////////////////////////////////////////////////
+	void print_Org_Packages();
+	void print_Cost_Matrix();
+	void print_Solution();
 };
 #endif //DELIVERER_H
