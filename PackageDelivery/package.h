@@ -9,7 +9,7 @@ private:
 	int source;
 	static int number;
 public:
-	Package(int sour, int dest);
+	Package(int sour = 0, int dest = 0);
 	int getID();
 	int getDestination();
 	int getSource();

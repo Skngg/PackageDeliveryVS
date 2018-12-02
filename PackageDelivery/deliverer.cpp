@@ -2,9 +2,31 @@
 #include <stdlib.h>
 #include <ctime>
 #include <algorithm>
+#include <iostream>
 
 Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_)
 	:cost_Matrix(matrix_), org_Packages(packages_)
+{
+	std::cout<<"Poczatek konstruktora Deliverer"<<std::endl;
+	std::vector<std::vector<Package>> list_of_packages(cost_Matrix.size(), std::vector<Package>(cost_Matrix.size()));
+	for (auto pack : org_Packages)
+	{
+		int source = pack.getSource();
+		list_of_packages.at(source).push_back(pack);
+	}
+	std::cout<<"Srodek konstruktora Deliverer"<<std::endl;
+	for (int i = 0; i < cost_Matrix.size(); i++)
+	{
+		points.push_back(Point(i, list_of_packages[i]));
+	}
+	generate_start_solution();
+	best_Solution = solution;
+	best_goal_function = goal_Function(solution);
+	std::cout<<"Koniec konstruktora Deliverer"<<std::endl;
+};
+///////////////////////////////////////////
+Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_, double t_min, double t_begin, double alfa_, int k_iter, double C1_not_taken, double C2_taken)
+	:cost_Matrix(matrix_), org_Packages(packages_), T_min(t_min), T_begin(t_begin), alfa(alfa_), k(k_iter), C1(C1_not_taken), C2(C2_taken)
 {
 	std::vector<std::vector<Package>> list_of_packages;
 	for (auto pack : org_Packages)
@@ -17,13 +39,11 @@ Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package>
 	{
 		points.push_back(Point(i, list_of_packages[i]));
 	}
-	generate_start_solution();
+	//generate_start_solution();
 	best_Solution = solution;
 	best_goal_function = goal_Function(solution);
-};
-/////////////////////////////////////////
-std::vector<Package> Deliverer::showLoad() { return load; }
-std::vector<Package> Deliverer::showDelivered() { return delivered; }
+}
+
 //////////////////////////////////////////
 void Deliverer::generate_start_solution()
 {
@@ -131,7 +151,7 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::modify_solution(std::ve
 
 		//		TBD
 	}
-
+	return newSolution;
 
 }
 ////////////////////////////////////////

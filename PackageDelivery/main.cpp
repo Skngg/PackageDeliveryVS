@@ -16,8 +16,34 @@
 int main()
 {
 	srand(time(NULL));
+	/*USTAWIANIE PARAMETRÓW*/
+	double T_0 = 100;
+	double T_min = 80;
+	double alfa = 0.999;
+	int  k = 10;
+	double C1 = 60;
+	double C2 = 100;
+	/////////////////////////////
+	std::vector<std::vector<int>> cost_matrix = {
+		{0, 1, 1, 100, 1},
+		{1, 0, 1, 100, 100},
+		{1, 1, 0, 100, 1},
+		{100, 100, 0, 100, 100},
+		{1, 100, 1,  100, 0}
+	};
+	std::vector<Package> packages = {
+		Package(0,1),
+		Package(0,2),
+		Package(2,4),
+		Package(4,0)
+	};
+	/////////////////////////////////////
+	Deliverer test(cost_matrix, packages);
+	
+	
 
+	std::cout << "KONIEC PROGRAMU" << std::endl;
 	return 0;
 }
 ///////////////////////////////////////
-
+//						std::cout<<<<std::endl;

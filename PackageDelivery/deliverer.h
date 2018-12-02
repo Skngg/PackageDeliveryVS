@@ -11,23 +11,22 @@ private:
 	std::vector<Package> org_Packages;
 	std::vector<std::vector<int>> cost_Matrix;
 	std::vector<Point> points;
-	double T_min = 20;
+	double T_min = 80;
 	double T_begin = 100;
 	double alfa = 0.999;
 	int k = 10;
-	double C1;
-	double C2;
+	double C1 = 50;
+	double C2 = 100;
 
-	std::vector<Package> load;
-	std::vector<Package> delivered;
+
 
 	std::vector<std::pair<int, std::vector<int>>> solution;
 	std::vector<std::pair<int, std::vector<int>>> best_Solution;
 	double best_goal_function;
 public:
+	Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_, double t_min, double t_begin, double alfa, int k_iter, double C1_not_taken, double taken);
 	Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_);
-	std::vector<Package> showLoad();
-	std::vector<Package> showDelivered();
+
 
 	void reset();
 	double goal_Function(std::vector<std::pair<int, std::vector<int>>>);
@@ -37,5 +36,11 @@ public:
 	int random_in_range(int, int);
 	double random_01();
 	Package get_Package_By_Id(int id);
+
+	std::vector<Package> get_org_Packages() { return org_Packages; };
+	std::vector<std::vector<int>> get_cost_Matrix() { return cost_Matrix; };
+	std::vector<Point> get_points() { return points; };
+	std::vector<std::pair<int, std::vector<int>>> get_solution() { return solution; };
+	std::vector<std::pair<int, std::vector<int>>> get_best_Solution() { return best_Solution; };
 };
 #endif //DELIVERER_H
