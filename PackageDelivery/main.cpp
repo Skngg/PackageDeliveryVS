@@ -16,11 +16,12 @@ void printf_sol(std::vector<std::pair<int, std::vector<int>>> sol);
 int main()
 {
 	srand(time(NULL));
+
 	/*USTAWIANIE PARAMETRÓW*/
 	double T_0 = 100;
-	double T_min = 80;
+	double T_min = 50;
 	double alfa = 0.999;
-	int  k = 10;
+	int  k = 20;
 	double C1 = 60;
 	double C2 = 100;
 	/////////////////////////////
@@ -38,17 +39,25 @@ int main()
 		Package(4,0)
 	};
 	/////////////////////////////////////
-	Deliverer test(cost_matrix, packages);
-	test.print_Cost_Matrix();
-	test.print_Org_Packages();
-	test.print_Points();
+	Deliverer test(cost_matrix, packages,T_min,T_0,alfa,k,C1,C2);
+	//test.print_Cost_Matrix();
+	//test.print_Org_Packages();
+	//test.print_Points();
 	test.print_Solution();
 	std::cout << "GF: " << test.goal_Function(test.get_solution()) << std::endl;
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 10; i++)
 	{
-		std::cout << "SOLUTION " << i << std::endl;
+		std::cout << "Solution "<<i << std::endl;
 		printf_sol(test.mod_Packages_To_Take(test.get_solution()));
 	}
+	/*clock_t begin = clock();
+	test.solve_problem();
+	clock_t end = clock();
+	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+	std::cout << "BEST SOLUTION" << std::endl;
+	printf_sol(test.get_best_Solution());
+	std::cout << "GOAL FUNCTION: " << test.goal_Function(test.get_best_Solution())<< std::endl;
+	std::cout << "TIME: " << elapsed_secs << " [s]" << std::endl;*/
 
 	
 	
