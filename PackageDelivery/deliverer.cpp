@@ -381,13 +381,14 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::change_one_point(std::v
 	std::vector<std::pair<int, std::vector<int>>> newSolution = currentSolution;
 	std::vector<std::pair<int, std::vector<int>>>::iterator it = newSolution.begin();
 
-	int number_of_points = currentSolution.size();
+	int number_of_points = newSolution.size();
 
-	int whereModify = random_in_range(0, number_of_points);
-	int newWaypoint = random_in_range(0, points.size());
-	for (auto pack : currentSolution.at(whereModify).second)
+	int newWaypoint = random_in_range(0, number_of_points);
+	int whereModify = random_in_range(0, newSolution.size());
+
+	for (int i = 0; i < newSolution.at(whereModify).second.size(); i++)
 	{
-		add_Package_By_Pack(pack);
+		add_Package_By_Id(newSolution.at(whereModify).second.at(i));
 	}
 	newSolution.erase(it + whereModify);
 
@@ -395,20 +396,22 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::change_one_point(std::v
 	std::vector<int> packs;
 	if (number_of_packages_in_point != 0)
 	{
-
-		int number_of_packages = random_in_range(0, number_of_packages_in_point);
-		for (int j = 0; j < number_of_packages; j++)
+		int number_of_packages = random_in_range(0, number_of_packages_in_point + 1);
+		for (int j = 1; j <= number_of_packages; j++)
 		{
 			int which_package = random_in_range(0, points.at(newWaypoint).getPackages().size());
-			packs.push_back(points.at(newWaypoint).getPackages().at(which_package).getID());
-			points.at(newWaypoint).delete_Package_By_Id(points.at(newWaypoint).getPackages().at(which_package).getID());
+			int id = points.at(newWaypoint).getPackages().at(which_package).getID();
+			packs.push_back(id);
+			points.at(newWaypoint).delete_Package_By_Id(id);			
 		}
 	}
 	std::pair<int, std::vector<int>> newInstruction = std::pair<int, std::vector<int>>(newWaypoint, packs);
-
-	newSolution.insert(it + whereModify, newInstruction);
+	
+	newSolution.insert(newSolution.begin() + whereModify, newInstruction);
 
 	return newSolution;
+	////////////////////////////////////////////////////
+	//wymaga poprawy
 }
 
 #pragma endregion

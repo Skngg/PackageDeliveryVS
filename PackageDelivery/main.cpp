@@ -47,7 +47,7 @@ int main()
 	for (int i = 0; i < 5; i++)
 	{
 		std::cout << "SOLUTION " << i << std::endl;
-		printf_sol(test.swap_2_points(test.get_solution()));
+		printf_sol(test.change_one_point(test.get_solution()));
 	}
 
 	
