@@ -36,7 +36,8 @@ public:
 	int random_in_range(int, int);
 	double random_01();
 	Package get_Package_By_Id(int id);
-	void add_Package_By_Id(Package pack_);
+	void add_Package_By_Pack(Package pack_);
+	void add_Package_By_Id(int id_);
 	///////////////////////////////////////////////////////////////////////
 	std::vector<Package> get_org_Packages() { return org_Packages; };
 	std::vector<std::vector<int>> get_cost_Matrix() { return cost_Matrix; };

@@ -175,7 +175,7 @@ void Deliverer::solve_problem()
 }
 /////////////////////////////////////////////////
 #pragma region FUNKCJE DODATKOWE
-
+////////////////////////////////////////////////
 Package Deliverer::get_Package_By_Id(int id)
 {
 	for (auto pack : org_Packages)
@@ -184,8 +184,22 @@ Package Deliverer::get_Package_By_Id(int id)
 	}
 }
 ///////////////////////////////////////////////
-void Deliverer::add_Package_By_Id(Package pack_)
+void Deliverer::add_Package_By_Pack(Package pack_)
 {
+	points.at(pack_.getSource()).addPackage(pack_);
+}
+////////////////////////////////////////////
+void Deliverer::add_Package_By_Id(int id_)
+{
+	Package pack_;
+	for (int i = 0; i < org_Packages.size(); i++)
+	{
+		if (org_Packages.at(i).getID() == id_)
+		{
+			pack_ = org_Packages.at(i);
+			break;
+		}
+	}
 	points.at(pack_.getSource()).addPackage(pack_);
 }
 ////////////////////////////////////////
@@ -271,19 +285,20 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::insert_Aditional_Waypoi
 	int number_of_points = points.size();
 
 	int newWaypoint = random_in_range(0, number_of_points);
-	int whereInsert = random_in_range(0, currentSolution.size());
+	int whereInsert = random_in_range(0, currentSolution.size()+1);
 	int number_of_packages_in_point = points.at(newWaypoint).getPackages().size();
 
 	std::vector<int> packs;
 	if (number_of_packages_in_point != 0)
 	{
 
-		int number_of_packages = random_in_range(0, number_of_packages_in_point);
-		for (int j = 0; j < number_of_packages; j++)
+		int number_of_packages = random_in_range(0, number_of_packages_in_point + 1);
+		for (int j = 1; j <= number_of_packages; j++)
 		{
 			int which_package = random_in_range(0, points.at(newWaypoint).getPackages().size());
-			packs.push_back(points.at(newWaypoint).getPackages().at(which_package).getID());
-			points.at(newWaypoint).delete_Package_By_Id(points.at(newWaypoint).getPackages().at(which_package).getID());
+			int id = points.at(newWaypoint).getPackages().at(which_package).getID();
+			packs.push_back(id);
+			points.at(newWaypoint).delete_Package_By_Id(id);
 		}
 	}
 	std::pair<int, std::vector<int>> newInstruction = std::pair<int, std::vector<int>>(newWaypoint, packs);
@@ -295,22 +310,19 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::insert_Aditional_Waypoi
 //ERASE ONE POINT
 std::vector<std::pair<int, std::vector<int>>> Deliverer::erase_one_point(std::vector<std::pair<int, std::vector<int>>>& currentSolution)
 {
-	std::vector<std::pair<int, std::vector<int>>> newSolution = currentSolution;
-	std::vector<std::pair<int, std::vector<int>>>::iterator it = newSolution.begin();
-
 
 	int number_of_points = currentSolution.size();
 
 	int whereErase = random_in_range(0, number_of_points);
-	for (auto pack : currentSolution.at(number_of_points).second)
+
+	for (int i = 0; i < currentSolution.at(whereErase).second.size(); i++)
 	{
-		add_Package_By_Id(pack);
+		add_Package_By_Id(currentSolution.at(whereErase).second.at(i));
 	}
+	currentSolution.erase(currentSolution.begin() + whereErase);
 
-	newSolution.erase(it + whereErase);
 
-
-	return newSolution;
+	return currentSolution;
 }
 ////////////////////////////////////////////////////////////////////////
 // SWAP 2 POINTS
@@ -326,7 +338,7 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::swap_2_points(std::vect
 	int pointTwo;
 	do
 	{
-		int pointTwo = random_in_range(0, number_of_points);
+		pointTwo = random_in_range(0, number_of_points);
 	} while (pointTwo == pointOne);
 
 	std::iter_swap(it + pointOne, it + pointTwo);
@@ -375,7 +387,7 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::change_one_point(std::v
 	int newWaypoint = random_in_range(0, points.size());
 	for (auto pack : currentSolution.at(whereModify).second)
 	{
-		add_Package_By_Id(pack);
+		add_Package_By_Pack(pack);
 	}
 	newSolution.erase(it + whereModify);
 

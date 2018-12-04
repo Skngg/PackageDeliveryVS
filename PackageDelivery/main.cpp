@@ -11,7 +11,7 @@
 #include <ctime>
 #include "init.h"
 
-
+void printf_sol(std::vector<std::pair<int, std::vector<int>>> sol);
 ///////////////////////////////////////////////
 int main()
 {
@@ -44,7 +44,11 @@ int main()
 	test.print_Points();
 	test.print_Solution();
 	std::cout << "GF: " << test.goal_Function(test.get_solution()) << std::endl;
-
+	for (int i = 0; i < 5; i++)
+	{
+		std::cout << "SOLUTION " << i << std::endl;
+		printf_sol(test.swap_2_points(test.get_solution()));
+	}
 
 	
 	
@@ -54,3 +58,16 @@ int main()
 }
 ///////////////////////////////////////
 //						std::cout<<<<std::endl;
+void printf_sol(std::vector<std::pair<int, std::vector<int>>> sol)
+{
+	for (auto inst : sol)
+	{
+		std::cout << inst.first << ": ";
+		for (auto pack : inst.second)
+		{
+			std::cout << pack << " ";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+}
