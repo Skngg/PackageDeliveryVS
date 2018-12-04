@@ -355,20 +355,21 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::mod_Packages_To_Take(st
 	int number_of_points = currentSolution.size();
 
 	int whereModify = random_in_range(0, number_of_points);
-	int number_of_packages_in_point = points.at(whereModify).getPackages().size();
+	int number_of_packages_in_point = points.at(whereModify).getOrgPackages().size();
 
 	if (number_of_packages_in_point != 0)
 	{
-		std::vector<int> newPacks = std::get<1>(newSolution.at(whereModify)); // COPY CURRENT PACKS FOR MODIFICATION
+		std::vector<int> newPacks = newSolution.at(whereModify).second;   // COPY CURRENT PACKS FOR MODIFICATION
 		int whichPackModify = random_in_range(0, number_of_packages_in_point);
 		if (std::find(newPacks.begin(), newPacks.end(), whichPackModify) != newPacks.end())
 		{
 			// ---IF currentPacks CONTAINS whickPackModify---
+			points.at(newSolution.at(whereModify).first).add_Package_By_Id(org_Packages.at(whichPackModify).getID());
 			newPacks.erase(newPacks.begin() + whichPackModify);
-
 		}
 		else
 		{
+			points.at(newSolution.at(whereModify).first).delete_Package_By_Id(org_Packages.at(whichPackModify).getID());
 			newPacks.push_back(whichPackModify);
 		}
 	}

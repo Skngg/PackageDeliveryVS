@@ -19,6 +19,18 @@ void Point::addPackage(Package package)
 {
 	packages.push_back(package);
 }
+///////////////////////////////////////////////
+void Point::add_Package_By_Id(int id)
+{
+	for (int i = 0; i < packages.size(); i++)
+	{
+		if (packages.at(i).getID() == id)
+		{
+			packages.push_back(packages.at(i));
+			return;
+		}
+	}
+}
 //////////////////////////////////////////////////
 void Point::deletePackage(Package package)
 {

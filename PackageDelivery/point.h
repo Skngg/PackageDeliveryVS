@@ -19,6 +19,7 @@ public:
 	std::vector<Package> getPackages();
 	std::vector<Package> getOrgPackages();
 	void addPackage(Package package);
+	void add_Package_By_Id(int id);
 	void deletePackage(Package package);
 	Package take_Package(int id);
 	void delete_Package_By_Id(int id);
