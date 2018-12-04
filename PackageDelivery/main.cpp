@@ -50,14 +50,14 @@ int main()
 		std::cout << "Solution "<<i << std::endl;
 		printf_sol(test.mod_Packages_To_Take(test.get_solution()));
 	}
-	/*clock_t begin = clock();
+	clock_t begin = clock();
 	test.solve_problem();
 	clock_t end = clock();
 	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 	std::cout << "BEST SOLUTION" << std::endl;
 	printf_sol(test.get_best_Solution());
 	std::cout << "GOAL FUNCTION: " << test.goal_Function(test.get_best_Solution())<< std::endl;
-	std::cout << "TIME: " << elapsed_secs << " [s]" << std::endl;*/
+	std::cout << "TIME: " << elapsed_secs << " [s]" << std::endl;
 
 	
 	

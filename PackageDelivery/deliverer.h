@@ -55,6 +55,8 @@ public:
 	void print_Cost_Matrix();
 	void print_Solution();
 	void print_Points();
+	std::vector<std::pair<int, std::vector<int>>> mod_Package_At(std::vector<std::pair<int, std::vector<int>>>& currentSolution, int where_);
+
 
 };
 #endif //DELIVERER_H

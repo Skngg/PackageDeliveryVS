@@ -81,7 +81,7 @@ void Deliverer::generate_start_solution()
 std::vector<std::pair<int, std::vector<int>>> Deliverer::modify_solution(std::vector<std::pair<int, std::vector<int>>>& currentSolution)
 {
 
-	int howModify = random_in_range(0, 3);
+	int howModify = random_in_range(0, 5);
 		if (howModify == 0)			// INSERT ADDITIONAL WAYPOINT TO SOLUTION
 		{
 			std::cout << "INSERT ADDITIONAL WAYPOINT TO SOLUTION"<<std::endl;
@@ -99,10 +99,12 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::modify_solution(std::ve
 		}
 		else if (howModify == 3)	// MOD PACKAGES TO TAKE
 		{
+			std::cout << "MOD PACKAGES TO TAKE" << std::endl;
 			return mod_Packages_To_Take(currentSolution);
 		}
 		else						// CHANGE ONE POINT
 		{
+			std::cout << "CHANGE ONE POINT" << std::endl;
 			return change_one_point(currentSolution);
 		}
 
@@ -356,50 +358,52 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::swap_2_points(std::vect
 //MOD PACKAGES TO TAKE
 std::vector<std::pair<int, std::vector<int>>> Deliverer::mod_Packages_To_Take(std::vector<std::pair<int, std::vector<int>>>& currentSolution)
 {
-	std::vector<std::pair<int, std::vector<int>>> newSolution = currentSolution;
-	std::vector<std::pair<int, std::vector<int>>>::iterator it = newSolution.begin();
+	return mod_Package_At(currentSolution, random_in_range(0, currentSolution.size()));
+
+	//std::vector<std::pair<int, std::vector<int>>> newSolution = currentSolution;
+	//std::vector<std::pair<int, std::vector<int>>>::iterator it = newSolution.begin();
 
 
-	int number_of_points = newSolution.size();
+	//int number_of_points = newSolution.size();
 
-	int whereModify = random_in_range(0, number_of_points);
-	int point_number = newSolution.at(whereModify).first;
-	int number_of_packages_in_point = points.at(point_number).getOrgPackages().size();
-	std::cout << "Nr point " << point_number << std::endl;
-	if (number_of_packages_in_point != 0)
-	{
-		std::vector<int> newPacks = newSolution.at(point_number).second;   // COPY CURRENT PACKS FOR MODIFICATION
+	//int whereModify = random_in_range(0, number_of_points);
+	//int point_number = newSolution.at(whereModify).first;
+	//int number_of_packages_in_point = points.at(point_number).getOrgPackages().size();
+	//std::cout << "Nr point " << point_number << std::endl;
+	//if (number_of_packages_in_point != 0)
+	//{
+	//	std::vector<int> newPacks = newSolution.at(point_number).second;   // COPY CURRENT PACKS FOR MODIFICATION
 
-		int whichPackModify = random_in_range(0, number_of_packages_in_point);
-		int id = points.at(point_number).getOrgPackages().at(whichPackModify).getID();
-		std::cout << "Nr point " << point_number << " ,id pack: " << id << std::endl;
-		
-		if (std::find(newPacks.begin(), newPacks.end(), id) != newPacks.end())
-		{
-			std::cout << "Pierwszy if "  << std::endl;
-			// ---IF currentPacks CONTAINS whickPackModify---
-			for (int i=0;i< points.at(point_number).getPackages().size();i++)
-			{
-				if (points.at(point_number).getPackages().at(i).getID() == id)
-				{
-					std::cout << "odejmij" << std::endl;
-					points.at(newSolution.at(point_number).first).add_Package_By_Id(id);
-					newPacks.erase(newPacks.begin() + whereModify);
-					break;
-				}
-			}
-			
-		}
-		else
-		{
-			std::cout << "DODAJ " << std::endl;
-			points.at(newSolution.at(point_number).first).delete_Package_By_Id(id);
-			newPacks.push_back(id);
-		}
-		newSolution.at(whereModify).second = newPacks;
-	}
+	//	int whichPackModify = random_in_range(0, number_of_packages_in_point);
+	//	int id = points.at(point_number).getOrgPackages().at(whichPackModify).getID();
+	//	std::cout << "Nr point " << point_number << " ,id pack: " << id << std::endl;
+	//	
+	//	if (std::find(newPacks.begin(), newPacks.end(), id) != newPacks.end())
+	//	{
+	//		std::cout << "Pierwszy if "  << std::endl;
+	//		// ---IF currentPacks CONTAINS whickPackModify---
+	//		for (int i=0;i< points.at(point_number).getPackages().size();i++)
+	//		{
+	//			if (points.at(point_number).getPackages().at(i).getID() == id)
+	//			{
+	//				std::cout << "odejmij" << std::endl;
+	//				points.at(newSolution.at(point_number).first).add_Package_By_Id(id);
+	//				newPacks.erase(newPacks.begin() + whereModify);
+	//				break;
+	//			}
+	//		}
+	//		
+	//	}
+	//	else
+	//	{
+	//		std::cout << "DODAJ " << std::endl;
+	//		points.at(newSolution.at(point_number).first).delete_Package_By_Id(id);
+	//		newPacks.push_back(id);
+	//	}
+	//	newSolution.at(whereModify).second = newPacks;
+	//}
 	
-	return newSolution;
+	//return newSolution;
 }
 /////////////////////////////////////////////////////////////////////
 // CHANGE ONE POINT
@@ -442,7 +446,39 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::change_one_point(std::v
 }
 
 #pragma endregion
+std::vector<std::pair<int, std::vector<int>>> Deliverer::mod_Package_At(std::vector<std::pair<int, std::vector<int>>>& currentSolution, int where_)
+{
+	int NR_point = currentSolution.at(where_).first;
 
+	int number_of_all_packages = points.at(NR_point).getOrgPackages().size();
+	if (number_of_all_packages != 0)
+	{
+		std::vector<int> packs = currentSolution.at(where_).second;
+
+		int it_pack = random_in_range(0, number_of_all_packages);
+
+		int Id_pack = points.at(NR_point).getOrgPackages().at(it_pack).getID();
+
+		if (std::find(packs.begin(),packs.end(),Id_pack) != packs.end())
+		{	//Jeœli znaleziono w punkcie
+			points.at(NR_point).add_Package_By_Id(Id_pack);
+			packs.erase(packs.begin() + it_pack);
+		}
+		else
+		{	//jeœli nie znaleziono w punkcie
+			for (int i = 0; i < points.at(NR_point).getPackages().size(); i++)
+			{
+				if (points.at(NR_point).getPackages().at(i).getID() == Id_pack)
+				{
+					points.at(NR_point).delete_Package_By_Id(Id_pack);
+					packs.push_back(Id_pack);
+				}
+			}
+		}
+		currentSolution.at(where_).second = packs;
+	}
+	return currentSolution;
+}
 
  
 
