@@ -18,9 +18,9 @@ int main()
 
 	/*USTAWIANIE PARAMETRÓW*/
 	double T_0 = 1000;
-	double T_min = 900;
+	double T_min = 100;
 	double alfa = 0.999;
-	int  k = 20;
+	int  k = 50;
 	double C1 = 50;
 	double C2 = 100;
 	/////////////////////////////

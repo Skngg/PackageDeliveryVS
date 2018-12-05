@@ -80,29 +80,58 @@ void Deliverer::generate_start_solution()
 ///////////////////////////////////////////////////////////////////////////////////
 std::vector<std::pair<int, std::vector<int>>> Deliverer::modify_solution(std::vector<std::pair<int, std::vector<int>>>& currentSolution)
 {
-
-	int howModify = random_in_range(0, 5);
-		if (howModify == 0)			// INSERT ADDITIONAL WAYPOINT TO SOLUTION
+	int howModify = random_in_range(0, 6);
+		//if (howModify == 0)			// INSERT ADDITIONAL WAYPOINT TO SOLUTION
+		//{
+		//	std::cout << "INSERT ADDITIONAL WAYPOINT TO SOLUTION"<<std::endl;
+		//	return insert_Aditional_Waypoint_To_Solution(currentSolution);
+		//}
+		//else if (howModify == 1)	// ERASE ONE POINT
+		//{
+		//	std::cout << "ERASE ONE POINT" << std::endl;
+		//	return erase_one_point(currentSolution);
+		//}
+		//else if (howModify == 2)	// SWAP 2 POINTS
+		//{
+		//	std::cout << "SWAP 2 POINTS" << std::endl;
+		//	return swap_2_points(currentSolution);
+		//}
+		//else if (howModify == 3)	// MOD PACKAGES TO TAKE
+		//{
+		//	std::cout << "MOD PACKAGES TO TAKE" << std::endl;
+		//	return mod_Packages_To_Take(currentSolution);
+		//}
+		//else						// CHANGE ONE POINT
+		//{
+		//	std::cout << "CHANGE ONE POINT" << std::endl;
+		//	return change_one_point(currentSolution);
+		//}
+		double random = random_01();
+		double level = P1_insert_additional_waypoint;
+		double level2 = level + P2_erase_one_point;
+		double level3 = level2 + P3_swap_points;
+		double level4 = level3 + P4_mod_packages;
+		if (random<level)
 		{
-			std::cout << "INSERT ADDITIONAL WAYPOINT TO SOLUTION"<<std::endl;
+			std::cout << "INSERT ADDITIONAL WAYPOINT TO SOLUTION" << std::endl;
 			return insert_Aditional_Waypoint_To_Solution(currentSolution);
 		}
-		else if (howModify == 1)	// ERASE ONE POINT
+		else if (random<level2)
 		{
 			std::cout << "ERASE ONE POINT" << std::endl;
 			return erase_one_point(currentSolution);
 		}
-		else if (howModify == 2)	// SWAP 2 POINTS
+		else if (random<level3)
 		{
 			std::cout << "SWAP 2 POINTS" << std::endl;
 			return swap_2_points(currentSolution);
 		}
-		else if (howModify == 3)	// MOD PACKAGES TO TAKE
+		else if (random < level4)
 		{
 			std::cout << "MOD PACKAGES TO TAKE" << std::endl;
 			return mod_Packages_To_Take(currentSolution);
 		}
-		else						// CHANGE ONE POINT
+		else
 		{
 			std::cout << "CHANGE ONE POINT" << std::endl;
 			return change_one_point(currentSolution);
@@ -331,6 +360,8 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::insert_Aditional_Waypoi
 	std::pair<int, std::vector<int>> newInstruction = std::pair<int, std::vector<int>>(newWaypoint, packs);
 
 	newSolution.insert(it + whereInsert, newInstruction);
+	std::cout << "Po zmianie" << std::endl;
+	printf_sol(newSolution);
 	return newSolution;
 }
 //////////////////////////////////////////////////////////////////
@@ -349,7 +380,8 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::erase_one_point(std::ve
 	}
 	currentSolution.erase(currentSolution.begin() + whereErase);
 
-
+	std::cout << "Po zmianie" << std::endl;
+	printf_sol(currentSolution);
 	return currentSolution;
 }
 ////////////////////////////////////////////////////////////////////////
@@ -370,6 +402,8 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::swap_2_points(std::vect
 	} while (pointTwo == pointOne);
 
 	std::iter_swap(it + pointOne, it + pointTwo);
+	std::cout << "Po zmianie" << std::endl;
+	printf_sol(newSolution);
 	return newSolution;
 }
 /////////////////////////////////////////////////////////////////////
@@ -460,10 +494,11 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::change_one_point(std::v
 	std::pair<int, std::vector<int>> newInstruction = std::pair<int, std::vector<int>>(newWaypoint, packs);
 	
 	newSolution.insert(newSolution.begin() + whereModify, newInstruction);
+	std::cout << "Po zmianie" << std::endl;
+	printf_sol(newSolution);
 
 	return newSolution;
-	////////////////////////////////////////////////////
-	//wymaga poprawy
+
 }
 
 #pragma endregion
@@ -508,6 +543,8 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::mod_Package_At(std::vec
 		}
 		currentSolution.at(where_).second = packs;
 	}
+	std::cout << "Po zmianie" << std::endl;
+	printf_sol(currentSolution);
 	return currentSolution;
 }
 

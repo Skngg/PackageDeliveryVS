@@ -18,6 +18,12 @@ private:
 	double C1 = 50;
 	double C2 = 100;
 
+	double P1_insert_additional_waypoint = 0.15;
+	double P2_erase_one_point = 0.15;
+	double P3_swap_points = 0.1;
+	double P4_mod_packages = 0.4;
+	double P5_change_one_point = 0.2;
+
 
 
 	std::vector<std::pair<int, std::vector<int>>> solution;
