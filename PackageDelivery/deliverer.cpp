@@ -213,6 +213,10 @@ void Deliverer::add_Package_By_Id(int id_)
 ////////////////////////////////////////
 int Deliverer::random_in_range(int low, int high)
 {
+	if (low==0 && high == 0)
+	{
+		return 0;
+	}
 	return low + rand() % (high - low);
 }
 ///////////////////////////////////////
@@ -267,6 +271,20 @@ void Deliverer::print_Solution()
 		}
 		std::cout << std::endl;
 	}
+}
+/////////////////////////////////////////////////////////////
+void Deliverer::printf_sol(std::vector<std::pair<int, std::vector<int>>> sol)
+{
+	for (auto inst : sol)
+	{
+		std::cout << inst.first << ": ";
+		for (auto pack : inst.second)
+		{
+			std::cout << pack << " ";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
 }
 ////////////////////////////////////////////////////////////
 void Deliverer::print_Points()
@@ -409,13 +427,14 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::mod_Packages_To_Take(st
 // CHANGE ONE POINT
 std::vector<std::pair<int, std::vector<int>>> Deliverer::change_one_point(std::vector<std::pair<int, std::vector<int>>>& currentSolution)
 {
+	if (currentSolution.size() == 0) return currentSolution;
 	std::vector<std::pair<int, std::vector<int>>> newSolution = currentSolution;
 	std::vector<std::pair<int, std::vector<int>>>::iterator it = newSolution.begin();
 
-	int number_of_points = newSolution.size();
 
-	int newWaypoint = random_in_range(0, number_of_points);
+	int newWaypoint = random_in_range(0, get_points().size());
 	int whereModify = random_in_range(0, newSolution.size());
+
 
 	for (int i = 0; i < newSolution.at(whereModify).second.size(); i++)
 	{
@@ -424,10 +443,12 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::change_one_point(std::v
 	newSolution.erase(it + whereModify);
 
 	int number_of_packages_in_point = points.at(newWaypoint).getPackages().size();
+
 	std::vector<int> packs;
 	if (number_of_packages_in_point != 0)
 	{
 		int number_of_packages = random_in_range(0, number_of_packages_in_point + 1);
+
 		for (int j = 1; j <= number_of_packages; j++)
 		{
 			int which_package = random_in_range(0, points.at(newWaypoint).getPackages().size());
@@ -446,8 +467,10 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::change_one_point(std::v
 }
 
 #pragma endregion
+
 std::vector<std::pair<int, std::vector<int>>> Deliverer::mod_Package_At(std::vector<std::pair<int, std::vector<int>>>& currentSolution, int where_)
 {
+	if (currentSolution.size() == 0) return currentSolution;
 	int NR_point = currentSolution.at(where_).first;
 
 	int number_of_all_packages = points.at(NR_point).getOrgPackages().size();
@@ -462,7 +485,14 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::mod_Package_At(std::vec
 		if (std::find(packs.begin(),packs.end(),Id_pack) != packs.end())
 		{	//Jeœli znaleziono w punkcie
 			points.at(NR_point).add_Package_By_Id(Id_pack);
-			packs.erase(packs.begin() + it_pack);
+			for (int i = 0; i<packs.size();i++)
+			{
+				if (packs.at(i) == Id_pack)
+				{
+					packs.erase(packs.begin() + i);
+					break;
+				}
+			}
 		}
 		else
 		{	//jeœli nie znaleziono w punkcie
@@ -472,6 +502,7 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::mod_Package_At(std::vec
 				{
 					points.at(NR_point).delete_Package_By_Id(Id_pack);
 					packs.push_back(Id_pack);
+					break;
 				}
 			}
 		}
