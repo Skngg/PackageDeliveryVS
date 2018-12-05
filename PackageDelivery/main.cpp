@@ -18,16 +18,16 @@ int main()
 
 	/*USTAWIANIE PARAMETRÓW*/
 	double T_0 = 1000;
-	double T_min = 100;
+	double T_min = 800;
 	double alfa = 0.999;
-	int  k = 50;
+	int  k = 10;
 	double C1 = 50;
 	double C2 = 100;
 	/////////////////////////////
 	std::vector<std::vector<int>> cost_matrix = {
-		{5, 1, 1, 100, 1},
+		{5, 1, 100, 100, 1},
 		{1, 5, 1, 100, 100},
-		{1, 1, 5, 100, 1},
+		{100, 1, 5, 100, 1},
 		{100, 100, 100, 5, 100},
 		{1, 100, 1,  100, 5}
 	};
