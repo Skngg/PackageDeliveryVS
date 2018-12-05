@@ -200,7 +200,7 @@ void Deliverer::solve_problem()
 			else
 			{
 				double d = random_01();
-				if (d < exp(-delta / T))
+				if (d > exp(-delta / T))
 				{
 					solution = neighbor;
 				}
