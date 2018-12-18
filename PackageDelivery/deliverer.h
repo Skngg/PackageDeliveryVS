@@ -3,6 +3,7 @@
 #include "package.h"
 #include "point.h"
 #include <vector>
+#include "init.h"
 
 
 class Deliverer
@@ -62,6 +63,8 @@ public:
 	void print_Solution();
 	void print_Points();
 	void printf_sol(std::vector<std::pair<int, std::vector<int>>> sol);
+	void printSolToFile(std::vector<std::pair<int, std::vector<int>>> sol, std::ostream& os);
+	void createSummary(std::ofstream& file,std::vector<std::pair<int, std::vector<int>>>& sol);
 	std::vector<std::pair<int, std::vector<int>>> mod_Package_At(std::vector<std::pair<int, std::vector<int>>>& currentSolution, int where_);
 
 

@@ -3,6 +3,7 @@
 #include <ctime>
 #include <algorithm>
 #include <iostream>
+#include <iomanip>
 
 #pragma region KONSTRUKTORY
 Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_)
@@ -176,10 +177,35 @@ double Deliverer::goal_Function(std::vector<std::pair<int, std::vector<int>>> so
 ////////////////////////////////////////////////////
 void Deliverer::solve_problem()
 {
+	std::ofstream summaryFile;
+	std::ofstream plotFile;
+	auto t = std::time(nullptr);
+	auto _time = *std::localtime(&t);
+	std::ostringstream oss;
+	oss << std::put_time(&_time,"%F-%H-%M");
+	std::string timestamp(oss.str());
+	std::string filename = "../summary.txt";
+	std::string filename_p = "../plot.csv";
+	filename = filename.insert(10, timestamp);
+	filename_p = filename_p.insert(7, timestamp);
+	summaryFile.open(filename, std::ofstream::trunc);
+	plotFile.open(filename_p, std::ofstream::trunc);
+
+	summaryFile << "# T_min   =  " << T_min << std::endl;
+	summaryFile << "# T_begin =  " << T_begin << std::endl;
+	summaryFile << "# alfa    =  " << alfa << std::endl;
+	summaryFile << "# k       =  " << k << std::endl;
+	summaryFile << "# C1      =  " << C1 << std::endl;
+	summaryFile << "# C2      =  " << C2 << std::endl;
+
+	summaryFile.close();
+
+
 	int iterator = 0;
 	double T = T_begin;
 	while (T > T_min)
 	{
+		plotFile << goal_Function(solution) << std::endl;
 		for (int i = 0; i < k; i++)
 		{
 			std::cout << iterator << ": " << T << " - " << i << std::endl;
@@ -209,6 +235,13 @@ void Deliverer::solve_problem()
 		}
 		T *= alfa;
 	}
+
+	summaryFile.open(filename, std::ofstream::app);
+	summaryFile << "BEST SOLUTION:" << std::endl;
+	printSolToFile(best_Solution, summaryFile);
+
+	summaryFile.close();
+	plotFile.close();
 }
 /////////////////////////////////////////////////
 #pragma region FUNKCJE DODATKOWE
@@ -302,6 +335,20 @@ void Deliverer::print_Solution()
 	}
 }
 /////////////////////////////////////////////////////////////
+void Deliverer::printSolToFile(std::vector<std::pair<int, std::vector<int>>> sol, std::ostream& os)
+{
+	for (auto inst : sol)
+	{
+		os << inst.first << ": ";
+		for (auto pack : inst.second)
+		{
+			std::cout << pack << " ";
+		}
+		os << std::endl;
+	}
+	os << std::endl;
+}
+/////////////////////////////////////////////////////////////
 void Deliverer::printf_sol(std::vector<std::pair<int, std::vector<int>>> sol)
 {
 	for (auto inst : sol)
@@ -329,6 +376,12 @@ void Deliverer::print_Points()
 		std::cout << std::endl;
 	}
 }
+////////////////////////////////////////////////////////////
+void createSummary(std::ofstream& file, std::vector<std::pair<int, std::vector<int>>> sol)
+{
+
+}
+
 #pragma endregion
 ///////////////////////////////////////////////////////////////
 #pragma region FUNKCJE_DO_MODYFIKACJI
