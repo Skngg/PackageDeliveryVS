@@ -206,7 +206,7 @@ void Deliverer::solve_problem()
 	double T = T_begin;
 	while (T > T_min)
 	{
-		plotFile << goal_Function(solution) << std::endl;
+		
 		for (int i = 0; i < k; i++)
 		{
 			std::cout << iterator << ": " << T << " - " << i << std::endl;
@@ -235,11 +235,13 @@ void Deliverer::solve_problem()
 			iterator++;
 		}
 		T *= alfa;
+		plotFile << goal_Function(best_Solution) << std::endl;
 	}
 
 	summaryFile.open(filename, std::ofstream::app);
 	summaryFile << "BEST SOLUTION:" << std::endl;
 	printSolToFile(best_Solution, summaryFile);
+	summaryFile << "GOAL FUNCTION:" << std::endl << goal_Function(best_Solution) << std::endl;
 
 	summaryFile.close();
 	plotFile.close();
@@ -343,7 +345,7 @@ void Deliverer::printSolToFile(std::vector<std::pair<int, std::vector<int>>> sol
 		os << inst.first << ": ";
 		for (auto pack : inst.second)
 		{
-			std::cout << pack << " ";
+			os << pack << " ";
 		}
 		os << std::endl;
 	}
