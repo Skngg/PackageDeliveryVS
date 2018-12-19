@@ -115,7 +115,8 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::modify_solution(std::ve
 		if (random<level)
 		{
 			std::cout << "INSERT ADDITIONAL WAYPOINT TO SOLUTION" << std::endl;
-			return insert_Aditional_Waypoint_To_Solution(currentSolution);
+			int whereInsert = random_in_range(0, currentSolution.size());
+			return insert_Aditional_Waypoint_To_Solution(currentSolution, whereInsert);
 		}
 		else if (random<level2)
 		{
@@ -226,7 +227,7 @@ void Deliverer::solve_problem()
 			else
 			{
 				double d = random_01();
-				if (d > exp(-delta / T))
+				if (d < exp(-delta / T))
 				{
 					solution = neighbor;
 				}
@@ -386,15 +387,21 @@ void createSummary(std::ofstream& file, std::vector<std::pair<int, std::vector<i
 ///////////////////////////////////////////////////////////////
 #pragma region FUNKCJE_DO_MODYFIKACJI
 //INSERT ADDITIONAL WAYPOINT TO SOLUTION
-std::vector<std::pair<int, std::vector<int>>> Deliverer::insert_Aditional_Waypoint_To_Solution(std::vector<std::pair<int, std::vector<int>>>& currentSolution)
+std::vector<std::pair<int, std::vector<int>>> Deliverer::insert_Aditional_Waypoint_To_Solution(std::vector<std::pair<int, std::vector<int>>>& currentSolution, int whereInsert)
 {
 	std::vector<std::pair<int, std::vector<int>>> newSolution = currentSolution;
 	std::vector<std::pair<int, std::vector<int>>>::iterator it = newSolution.begin();
 
 	int number_of_points = points.size();
+	int newWaypoint;
+	int a = (whereInsert >= currentSolution.size()) ? -1 : currentSolution.at(whereInsert).first;
+	int b = (whereInsert - 1 < 0) ? -1 : currentSolution.at(whereInsert - 1).first;
+	do
+	{
+		newWaypoint = random_in_range(0, number_of_points);
 
-	int newWaypoint = random_in_range(0, number_of_points);
-	int whereInsert = random_in_range(0, currentSolution.size()+1);
+	} while (newWaypoint == a || newWaypoint == b);
+
 	int number_of_packages_in_point = points.at(newWaypoint).getPackages().size();
 
 	std::vector<int> packs;
@@ -424,8 +431,14 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::erase_one_point(std::ve
 
 	int number_of_points = currentSolution.size();
 	if (number_of_points == 0) return currentSolution;
-
-	int whereErase = random_in_range(0, number_of_points);
+	int a, b;
+	int whereErase;
+	do
+	{
+		whereErase = random_in_range(0, number_of_points);
+		a = (whereErase + 1 >= number_of_points) ? -1 : currentSolution.at(whereErase + 1).first;
+		b = (whereErase -1 < 0) ? -2 : currentSolution.at(whereErase - 1).first;
+	} while (a==b);
 
 	for (int i = 0; i < currentSolution.at(whereErase).second.size(); i++)
 	{
@@ -449,10 +462,19 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::swap_2_points(std::vect
 	if (number_of_points < 2) return currentSolution;
 	int pointOne = random_in_range(0, number_of_points);
 	int pointTwo;
+	int a, b, c, d;
+	int i = 0;
 	do
 	{
+		if (i == number_of_points * 10) return currentSolution;
 		pointTwo = random_in_range(0, number_of_points);
-	} while (pointTwo == pointOne);
+		a = (pointTwo + 1 >= number_of_points || pointTwo+1 == pointOne) ? -1 : currentSolution.at(pointTwo + 1).first;
+		b = (pointTwo - 1 < 0 || pointTwo - 1 == pointOne) ? -2 : currentSolution.at(pointTwo - 1).first;
+		d = (pointOne - 1 < 0 || pointOne - 1 == pointTwo) ? -1 : currentSolution.at(pointOne - 1).first;
+		c = (pointOne + 1 >= number_of_points || pointOne + 1 == pointTwo) ? -1 : currentSolution.at(pointOne + 1).first;
+		i++;
+	} while (pointTwo == pointOne || a==currentSolution.at(pointOne).first || b== currentSolution.at(pointOne).first 
+		|| c == currentSolution.at(pointTwo).first || d == currentSolution.at(pointTwo).first);
 
 	std::iter_swap(it + pointOne, it + pointTwo);
 	std::cout << "Po zmianie" << std::endl;
@@ -518,9 +540,16 @@ std::vector<std::pair<int, std::vector<int>>> Deliverer::change_one_point(std::v
 	std::vector<std::pair<int, std::vector<int>>> newSolution = currentSolution;
 	std::vector<std::pair<int, std::vector<int>>>::iterator it = newSolution.begin();
 
-
-	int newWaypoint = random_in_range(0, get_points().size());
 	int whereModify = random_in_range(0, newSolution.size());
+	int newWaypoint;
+	int a = (whereModify + 1 >= currentSolution.size()) ? -1 : currentSolution.at(whereModify + 1).first;
+	int b = (whereModify - 1 < 0) ? -1 : currentSolution.at(whereModify - 1).first;
+
+	do
+	{
+		newWaypoint = random_in_range(0, get_points().size());
+
+	} while (a == newWaypoint || b == newWaypoint);
 
 
 	for (int i = 0; i < newSolution.at(whereModify).second.size(); i++)

@@ -17,7 +17,7 @@ int main()
 	srand(time(NULL));
 
 	/*USTAWIANIE PARAMETRÓW*/
-	double T_0 = 100;
+	double T_0 = 10;
 	double T_min = 0.001;
 	double alfa = 0.999;
 	int  k = 10;

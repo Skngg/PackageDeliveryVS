@@ -52,7 +52,7 @@ public:
 	std::vector<std::pair<int, std::vector<int>>> get_solution() { return solution; };
 	std::vector<std::pair<int, std::vector<int>>> get_best_Solution() { return best_Solution; };
 	////////////////////////////////////////////////////////////////////////
-	std::vector<std::pair<int, std::vector<int>>> insert_Aditional_Waypoint_To_Solution(std::vector<std::pair<int, std::vector<int>>>& currentSolution);
+	std::vector<std::pair<int, std::vector<int>>> insert_Aditional_Waypoint_To_Solution(std::vector<std::pair<int, std::vector<int>>>& currentSolution, int location);
 	std::vector<std::pair<int, std::vector<int>>> erase_one_point(std::vector<std::pair<int, std::vector<int>>>& currentSolution);
 	std::vector<std::pair<int, std::vector<int>>> swap_2_points(std::vector<std::pair<int, std::vector<int>>>& currentSolution);
 	std::vector<std::pair<int, std::vector<int>>> mod_Packages_To_Take(std::vector<std::pair<int, std::vector<int>>>& currentSolution);
