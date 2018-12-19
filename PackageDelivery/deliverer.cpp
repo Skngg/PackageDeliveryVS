@@ -185,10 +185,10 @@ void Deliverer::solve_problem()
 	std::ostringstream oss;
 	oss << std::put_time(&_time,"%F-%H-%M");
 	std::string timestamp(oss.str());
-	std::string filename = "../summary.txt";
-	std::string filename_p = "../plot.csv";
-	filename = filename.insert(10, timestamp);
-	filename_p = filename_p.insert(7, timestamp);
+	std::string filename = "../OUTfiles/summary.txt";
+	std::string filename_p = "../OUTfiles/plot.csv";
+	filename = filename.insert(19, timestamp);
+	filename_p = filename_p.insert(16, timestamp);
 	summaryFile.open(filename, std::ofstream::trunc);
 	plotFile.open(filename_p, std::ofstream::trunc);
 
