@@ -8,7 +8,7 @@ Package::Package(int sour, int dest)
 	number++;
 }
 /////////////////////////////////////////
-int Package::getID() { return ID; }
+int Package::getID()const { return ID; }
 int Package::getDestination() { return destination; }
 int Package::getSource() { return source; }
 

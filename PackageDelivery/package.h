@@ -10,7 +10,7 @@ private:
 	static int number;
 public:
 	Package(int sour = 0, int dest = 0);
-	int getID();
+	int getID()const;
 	int getDestination();
 	int getSource();
 };

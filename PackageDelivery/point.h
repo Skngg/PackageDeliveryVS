@@ -8,20 +8,20 @@ class Point
 {
 private:
 	int ID;
-	std::vector<Package> org_packages;
+	const std::vector<Package> org_packages;
 	std::vector<Package> packages;
 public:
 	Point(int Id);
 	Point(int Id, std::vector<Package> packages_);
 
-	int getID();
+	int getID()const;
 	void reset();
 	std::vector<Package> getPackages();
-	std::vector<Package> getOrgPackages();
+	std::vector<Package> getOrgPackages()const;
 	void addPackage(Package package);
 	void add_Package_By_Id(int id);
-	void deletePackage(Package package);
-	Package take_Package(int id);
+	void deletePackage(Package& package);
 	void delete_Package_By_Id(int id);
+
 };
 #endif //POINT_H
