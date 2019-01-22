@@ -19,12 +19,12 @@ int main()
 
 
 	/*USTAWIANIE PARAMETRÓW*/
-	double T_0 = 1;
+	double T_0 = 10;
 	double T_min = 0.001;
 	double alfa = 0.999;
 	int  k = 10;
 	double C1 = 1000;
-
+	int maxLoad = 20;
 	
 	//generatePackages(135, 12);
 
@@ -48,8 +48,7 @@ int main()
 	};*/
 	/////////////////////////////////////
 	Deliverer test(cost_matrix, packages, T_min, T_0, alfa, k, C1);
-	test.setMaxLoad(1);
-	std::vector<int> x = { 4,0,4,2,4,2,4 };
+	test.setMaxLoad(maxLoad);
 	test.print_Cost_Matrix();
 	test.print_Org_Packages();
 	test.print_Points();
