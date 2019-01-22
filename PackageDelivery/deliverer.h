@@ -5,6 +5,12 @@
 #include <vector>
 #include "init.h"
 #include <random>
+#include <stdlib.h>
+#include <algorithm>
+#include <iostream>
+#include <iomanip>
+#include <chrono>
+#include <fstream>
 
 class Deliverer
 {
@@ -19,10 +25,10 @@ private:
 	double C1 = 25;
 	int maxLoad = 5;
 
-	double P1_insert_additional_waypoint = 0.35;
-	double P2_erase_one_point = 0.35;
-	double P3_swap_points = 0.15;
-	double P4_change_one_point = 0.15;
+	double P1_insert_additional_waypoint = 0.25;
+	double P2_erase_one_point = 0.25;
+	double P3_swap_points = 0.25;
+	double P4_change_one_point = 0.25;
 
 	long long seed;
 	std::mt19937* generator;
