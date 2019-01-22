@@ -214,7 +214,7 @@ void Deliverer::solve_problem()
 			//printf_sol(neighbor);
 			double score = goal_Function(neighbor);
 			double delta = score - gf_solution;
-
+			plotFile << best_goal_function << "," << score << std::endl;
 			if (delta < 0)
 			{
 				solution = neighbor;
@@ -236,9 +236,10 @@ void Deliverer::solve_problem()
 			}
 			iterator++;
 			myfile << iterator << " " << T << " " << gf_solution << " " << best_goal_function << std::endl;
+			
 		}
 		T *= alfa;
-		plotFile << goal_Function(best_Solution) << std::endl;
+		
 	}
 
 	summaryFile.open(filename, std::ofstream::app);

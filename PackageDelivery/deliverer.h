@@ -19,10 +19,10 @@ private:
 	double C1 = 25;
 	int maxLoad = 5;
 
-	double P1_insert_additional_waypoint = 0.10;
-	double P2_erase_one_point = 0.15;
-	double P3_swap_points = 0.35;
-	double P4_change_one_point = 0.40;
+	double P1_insert_additional_waypoint = 0.35;
+	double P2_erase_one_point = 0.35;
+	double P3_swap_points = 0.15;
+	double P4_change_one_point = 0.15;
 
 	long long seed;
 	std::mt19937* generator;
