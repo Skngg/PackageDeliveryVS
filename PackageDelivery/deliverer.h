@@ -66,7 +66,7 @@ public:
 	void setStartSolution(std::vector<int>);
 	///MODIFY SOLUTION/////////////////////////////////////////////////////////////
 	std::vector<int> insert_Aditional_Waypoint_To_Solution(std::vector<int>& currentSolution, int location);
-	std::vector<int> erase_one_point(std::vector<int>& currentSolution,int whereErese);
+	std::vector<int> erase_one_point(std::vector<int>& currentSolution);
 	std::vector<int> swap_2_points(std::vector<int>& currentSolution);
 	std::vector<int> change_one_point(std::vector<int>& currentSolution,int whereChange_);
 	//PRINT///////////////////////////////////////////////////////////////

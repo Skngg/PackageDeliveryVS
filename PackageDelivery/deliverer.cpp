@@ -76,8 +76,7 @@ std::vector<int> Deliverer::modify_solution(std::vector<int>& currentSolution)
 		else if (random<level2)
 		{
 			//std::cout << "ERASE ONE POINT" << std::endl;
-			whereModify = random_in_range(0, currentSolution.size()-1);
-			return erase_one_point(currentSolution, whereModify);
+			return erase_one_point(currentSolution);
 		}
 		else if (random<level3)
 		{
@@ -105,25 +104,6 @@ double Deliverer::goal_Function(std::vector<int> solution_)
 	{
 		result += cost_Matrix.at(solution_.at(i-1)).at(solution_.at(i));
 	}
-	//wersja ³atwiejsza
-	/*for (int i=0;i<solution_.size();i++)
-	{
-		std::cout << "NR: " << solution_.at(i);
-		auto packages_in_point = points.at(solution_.at(i)).getPackages();
-		for (auto pack : packages_in_point)
-		{
-			auto dest = std::find(solution_.begin()+i, solution_.end(), pack.getDestination());
-			std::cout << " DEST: " << (dest-solution_.begin());
-			if (dest != solution_.end())
-			{
-				std::cout <<" END:"<< (solution_.end() - solution_.begin());
-				taken++;
-				loadPackage.push_back(pack);
-				points.at(solution_.at(i)).deletePackage(pack);
-			}
-		}
-		std::cout << std::endl;
-	}*/
 	for (auto it = solution_.begin(); it != solution_.end(); it++)
 	{
 		auto packages_in_point = points.at(*it).getPackages();
@@ -280,9 +260,21 @@ std::vector<int> Deliverer::insert_Aditional_Waypoint_To_Solution(std::vector<in
 }
 //////////////////////////////////////////////////////////////////
 //ERASE ONE POINT
-std::vector<int> Deliverer::erase_one_point(std::vector<int>& currentSolution, int whereErese_)
+std::vector<int> Deliverer::erase_one_point(std::vector<int>& currentSolution)
 {
-	if (whereErese_ < 0 || whereErese_ >= currentSolution.size()) return currentSolution;
+	int whereErese_;
+	int predecessor;
+	int successor;
+	int i = 0;
+	do
+	{
+		whereErese_ = random_in_range(0, currentSolution.size() - 1);
+		predecessor = whereErese_ - 1 < 0 ? -1 : currentSolution.at(whereErese_ - 1);
+		successor = whereErese_ + 1 >= currentSolution.size() ? -1 : currentSolution.at(whereErese_ + 1);
+		i++;
+	} while (predecessor == successor && i <points.size()*10);
+	 
+	if (i == points.size()*10) return currentSolution;
 	currentSolution.erase(currentSolution.begin() + whereErese_);
 	return currentSolution;
 }
