@@ -33,7 +33,7 @@ private:
 	double gf_solution;
 
 public:
-	Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_, double t_min, double t_begin, double alfa, int k_iter, double C1_not_taken);
+	Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_, double t_min, double t_begin, double alfa, int k_iter, double C1_not_taken, int maxLoad_);
 	Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_);
 	void init(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_);
 	~Deliverer();
@@ -84,6 +84,6 @@ public:
 	/////////////////////////////////////////////////////////////////////////
 	void createSummary(std::ofstream& file, std::vector<std::pair<int, std::vector<int>>>& sol);
 
-
+	int how_many_pack_delivered = 0;
 };
 #endif //DELIVERER_H

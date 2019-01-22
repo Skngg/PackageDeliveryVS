@@ -20,7 +20,7 @@ int main()
 
 	/*USTAWIANIE PARAMETRÓW*/
 	double T_0 = 10;
-	double T_min = 0.001;
+	double T_min = 0.0001;
 	double alfa = 0.999;
 	int  k = 4;
 	double C1 = 1000;
@@ -31,8 +31,8 @@ int main()
 	initFromFile(packages);
 
 
-	Deliverer test(cost_matrix, packages, T_min, T_0, alfa, k, C1);
-	test.setMaxLoad(maxLoad);
+	Deliverer test(cost_matrix, packages, T_min, T_0, alfa, k, C1,maxLoad);
+
 	test.print_Cost_Matrix();
 	test.print_Org_Packages();
 	test.print_Points();
@@ -48,6 +48,7 @@ int main()
 
 	std::cout << std::endl << "BEST SOLUTION" << std::endl;
 	test.printf_sol(test.get_best_Solution());
+	std::cout << "NUMBER OF DELIVERED PACKAGES: " << test.how_many_pack_delivered << " / " << packages.size() << std::endl;
 	std::cout << "GOAL FUNCTION: " << test.goal_Function(test.get_best_Solution())<< std::endl;
 	std::cout << "TIME: " << elapsed_secs << " [s]" << std::endl;
 	
