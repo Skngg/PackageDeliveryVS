@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 
-void initFromFile(std::vector<Point>& _points);
+void initFromFile(std::vector<Point>& _points, int n);
 std::vector<std::vector<int>> costMatrixReadCSV();
 
 #endif

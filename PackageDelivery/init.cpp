@@ -1,20 +1,14 @@
 #include "init.h"
 
-void initFromFile(std::vector<Point>& _points)
+void initFromFile(std::vector<Point>& _points, int n)
 {
-	std::ifstream file("../DATABASE.txt");
+	std::ifstream file("../PACKAGES.txt");
 	/*
 		DATABSE FILE FORMAT BELOW:
 
 			--BEGINNIG OF FILE--
-		POINT		--OPENING IDENTIFIER--
 		SRC,DST		--PACKAGE DETAILS (SOURCE POINT ID, DESTINATION POINT ID)--
 		(...)
-		POINT		--CLOSING IDENTIFIER--
-		(..)
-		POINT		--OPENING IDENTIFIER--
-		(...)
-		POINT		--CLOSING IDENTIFIER--
 			--END OF FILE--
 
 	*/
@@ -22,31 +16,52 @@ void initFromFile(std::vector<Point>& _points)
 	std::string bufferStr;
 	std::vector<int> bufferInt;
 	int pointID = 0;
+	Point* tmpPoint = new Point(pointID);
 
+	
 	while (std::getline(file, bufferStrLine))
 	{
-		if (bufferStrLine.compare("POINT") == 0) // CHECK FOR OPENING IDENTIFIER
+		
+		if (tmpPoint == nullptr)
 		{
-			// ASSUMING THAT POINTS ARE SAVED IN INCREASING ORDER VIA THEIR ID
-			Point tmpPoint = Point(pointID);
-			pointID++;
-
-			while (std::getline(file, bufferStrLine))
-			{
-				if (bufferStrLine.compare("POINT") == 0) { break; } // CHECK FOR CLOSING IDENTIFIER <=> CHECK IF POINT HAS NO MORE PACKAGES
-
-				bufferInt.clear();
-				std::istringstream bufferStream(bufferStrLine);
-				while (std::getline(bufferStream, bufferStr, ','))
-				{
-					bufferInt.push_back(std::stoi(bufferStr));
-				}
-				Package tmpPackage = Package(bufferInt.at(0), bufferInt.at(1));
-				tmpPoint.addPackage(tmpPackage);
-			}
-
-			_points.push_back(tmpPoint);
+			tmpPoint = new Point(pointID);
 		}
+
+		// PARSE LINE INTO NUMBERS
+		std::istringstream bufferStream(bufferStrLine);
+		bufferInt.clear();
+		while (std::getline(bufferStream, bufferStr, ','))
+		{
+			bufferInt.push_back(std::stoi(bufferStr));
+		}
+
+		if (bufferInt.at(0) == pointID)
+		{
+			
+			Package tmpPackage = Package(bufferInt.at(0), bufferInt.at(1));
+			tmpPoint->addPackage(tmpPackage);
+		}
+		else
+		{
+			do
+			{
+				_points.push_back(*tmpPoint);		// ADD EXISTING POINT TO THE _points VECTOR
+				pointID++;							// GET NEXT POINT ID
+				tmpPoint = new Point(pointID);		// CREATE NEW TEMPORARY POINT
+			} while (pointID != bufferInt.at(0));	
+
+			Package tmpPackage = Package(bufferInt.at(0), bufferInt.at(1));
+			tmpPoint->addPackage(tmpPackage);
+			
+		}
+	}
+	_points.push_back(*tmpPoint);
+	
+	while (pointID != n)					// CREATE REMAINING POINTS WHEN NO PACKAGES ARE SPECIFIED
+	{
+		pointID++;							// GET NEXT POINT ID
+		tmpPoint = new Point(pointID);		// CREATE NEW TEMPORARY POINT
+		_points.push_back(*tmpPoint);		// ADD EXISTING POINT TO THE _points VECTOR
 	}
 }
 
