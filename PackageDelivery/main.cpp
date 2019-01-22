@@ -22,31 +22,15 @@ int main()
 	double T_0 = 10;
 	double T_min = 0.001;
 	double alfa = 0.999;
-	int  k = 10;
+	int  k = 4;
 	double C1 = 1000;
 	int maxLoad = 20;
-	
-	//generatePackages(135, 12);
 
 	std::vector<Package> packages;
 	std::vector<std::vector<int>> cost_matrix = costMatrixReadCSV();
 	initFromFile(packages);
 
-	/////////////////////////////
-	/*std::vector<std::vector<int>> cost_matrix = {
-		{5, 1, 20, 20, 1},
-		{1, 5, 1, 20, 20},
-		{20, 1, 5, 20, 1},
-		{20, 20, 20, 5, 20},
-		{1, 20, 1,  20, 5}
-	};
-	std::vector<Package> packages = {
-		Package(0,1),
-		Package(0,2),
-		Package(2,4),
-		Package(4,0)
-	};*/
-	/////////////////////////////////////
+
 	Deliverer test(cost_matrix, packages, T_min, T_0, alfa, k, C1);
 	test.setMaxLoad(maxLoad);
 	test.print_Cost_Matrix();

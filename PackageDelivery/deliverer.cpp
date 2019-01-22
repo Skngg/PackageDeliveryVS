@@ -161,12 +161,12 @@ void Deliverer::solve_problem()
 	auto t = std::time(nullptr);
 	auto _time = *std::localtime(&t);
 	std::ostringstream oss;
-	oss << std::put_time(&_time,"%F-%H-%M");
+	oss << std::put_time(&_time,"%H-%M");
 	std::string timestamp(oss.str());
-	std::string filename = "../OUTfiles/summary.txt";
-	std::string filename_p = "../OUTfiles/plot.csv";
-	filename = filename.insert(19, timestamp);
-	filename_p = filename_p.insert(16, timestamp);
+	std::string filename = "../OutputFiles/summary.txt";
+	std::string filename_p = "../OutputFiles/plot.csv";
+	filename = filename.insert(22, timestamp);
+	filename_p = filename_p.insert(19, timestamp);
 	summaryFile.open(filename, std::ofstream::trunc);
 	plotFile.open(filename_p, std::ofstream::trunc);
 
@@ -175,14 +175,13 @@ void Deliverer::solve_problem()
 	summaryFile << "# alfa    =  " << alfa << std::endl;
 	summaryFile << "# k       =  " << k << std::endl;
 	summaryFile << "# C1      =  " << C1 << std::endl;
-	//summaryFile << "# C2      =  " << C2 << std::endl;
 
 	summaryFile.close();
-	std::ofstream myfile, file2;
+	/*std::ofstream myfile, file2;
 	myfile.open("example.txt");
 	file2.open("delta.txt");
 	myfile << "Iterator T GF Best_GF" << std::endl;
-	int iterator = 0;
+	int iterator = 0;*/
 	double T = T_begin;
 	while (T > T_min)
 	{
@@ -194,7 +193,7 @@ void Deliverer::solve_problem()
 			//printf_sol(neighbor);
 			double score = goal_Function(neighbor);
 			double delta = score - gf_solution;
-			plotFile << best_goal_function << "," << score << std::endl;
+			
 			if (delta < 0)
 			{
 				solution = neighbor;
@@ -212,10 +211,11 @@ void Deliverer::solve_problem()
 				{
 					solution = neighbor;
 				}
-				file2 << iterator << " " << exp(-delta / T) << std::endl;
+				//file2 << iterator << " " << exp(-delta / T) << std::endl;
 			}
-			iterator++;
-			myfile << iterator << " " << T << " " << gf_solution << " " << best_goal_function << std::endl;
+			/*iterator++;
+			myfile << iterator << " " << T << " " << gf_solution << " " << best_goal_function << std::endl;*/
+			plotFile << best_goal_function << "," << score << std::endl;
 			
 		}
 		T *= alfa;
@@ -229,8 +229,8 @@ void Deliverer::solve_problem()
 
 	summaryFile.close();
 	plotFile.close();
-	myfile.close();
-	file2.close();
+	//myfile.close();
+	//file2.close();
 }
 /////////////////////////////////////////////////
 

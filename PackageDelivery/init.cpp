@@ -2,7 +2,7 @@
 
 void initFromFile(std::vector<Package>& _packs)
 {
-	std::ifstream file("../PACKAGES.txt");
+	std::ifstream file(P_FILENAME);
 	/*
 		DATABSE FILE FORMAT BELOW:
 
@@ -81,7 +81,7 @@ void initFromFile(std::vector<Package>& _packs)
 
 std::vector<std::vector<int>> costMatrixReadCSV()
 {
-	std::ifstream file("../DATA.csv");
+	std::ifstream file(M_FILENAME);
 	/*
 		COST MATRIX FILE FORMAT BELOW:
 		//NO WHITECHARS BETWEEN VALUES
