@@ -1,6 +1,6 @@
 #include "init.h"
 
-void initFromFile(std::vector<Point>& _points, int n)
+void initFromFile(std::vector<Package>& _packs)
 {
 	std::ifstream file("../PACKAGES.txt");
 	/*
@@ -18,11 +18,24 @@ void initFromFile(std::vector<Point>& _points, int n)
 	int pointID = 0;
 	Point* tmpPoint = new Point(pointID);
 
-	
+
 	while (std::getline(file, bufferStrLine))
 	{
-		
-		if (tmpPoint == nullptr)
+		// PARSE LINE INTO NUMBERS
+		std::istringstream bufferStream(bufferStrLine);
+		bufferInt.clear();
+		while (std::getline(bufferStream, bufferStr, ','))
+		{
+			bufferInt.push_back(std::stoi(bufferStr));
+		}
+		// END PARSE
+
+		Package tmpPackage = Package(bufferInt.at(0), bufferInt.at(1));
+		_packs.push_back(tmpPackage);
+
+
+
+		/*if (tmpPoint == nullptr)
 		{
 			tmpPoint = new Point(pointID);
 		}
@@ -37,9 +50,9 @@ void initFromFile(std::vector<Point>& _points, int n)
 
 		if (bufferInt.at(0) == pointID)
 		{
-			
+
 			Package tmpPackage = Package(bufferInt.at(0), bufferInt.at(1));
-			tmpPoint->addPackage(tmpPackage);
+			_packs.push_back(tmpPackage);
 		}
 		else
 		{
@@ -48,23 +61,23 @@ void initFromFile(std::vector<Point>& _points, int n)
 				_points.push_back(*tmpPoint);		// ADD EXISTING POINT TO THE _points VECTOR
 				pointID++;							// GET NEXT POINT ID
 				tmpPoint = new Point(pointID);		// CREATE NEW TEMPORARY POINT
-			} while (pointID != bufferInt.at(0));	
+			} while (pointID != bufferInt.at(0));
 
 			Package tmpPackage = Package(bufferInt.at(0), bufferInt.at(1));
 			tmpPoint->addPackage(tmpPackage);
-			
+
 		}
 	}
 	_points.push_back(*tmpPoint);
-	
+
 	while (pointID != n)					// CREATE REMAINING POINTS WHEN NO PACKAGES ARE SPECIFIED
 	{
 		pointID++;							// GET NEXT POINT ID
 		tmpPoint = new Point(pointID);		// CREATE NEW TEMPORARY POINT
 		_points.push_back(*tmpPoint);		// ADD EXISTING POINT TO THE _points VECTOR
+	}*/
 	}
 }
-
 
 std::vector<std::vector<int>> costMatrixReadCSV()
 {
@@ -104,4 +117,50 @@ std::vector<std::vector<int>> costMatrixReadCSV()
 	}
 
 	return matrix;
+}
+
+
+void generatePackages(int maxP, int nodes)
+{
+	std::ofstream file("../PACKAGES.txt");
+
+	int totalP = 0;
+	int source = 0;
+	int dest = 0;
+
+	
+	std::vector<std::pair<int, int>> buffer;
+
+	do
+	{
+		source = (std::rand() % (nodes));
+		do
+		{
+			dest = (std::rand() % (nodes));
+		} while (dest == source);
+
+		std::pair<int, int> tmpPair;
+		tmpPair.first = source;
+		tmpPair.second = dest;
+
+		buffer.push_back(tmpPair);
+
+		totalP++;
+
+	} while (totalP != maxP);
+
+
+
+	for (int srcIndex = 0; srcIndex < nodes; srcIndex++)
+	{
+		for (auto it = buffer.begin(); it != buffer.end(); it++)
+		{
+			if (it[0].first == srcIndex)
+			{
+				file << it[0].first << "," << it[0].second << std::endl;
+			}
+		}
+	}
+	
+
 }

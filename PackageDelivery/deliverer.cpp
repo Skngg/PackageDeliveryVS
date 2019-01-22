@@ -176,7 +176,7 @@ void Deliverer::solve_problem()
 {
 	best_Solution = solution;
 	best_goal_function = goal_Function(best_Solution);
-	/*std::ofstream summaryFile;
+	std::ofstream summaryFile;
 	std::ofstream plotFile;
 	auto t = std::time(nullptr);
 	auto _time = *std::localtime(&t);
@@ -195,9 +195,9 @@ void Deliverer::solve_problem()
 	summaryFile << "# alfa    =  " << alfa << std::endl;
 	summaryFile << "# k       =  " << k << std::endl;
 	summaryFile << "# C1      =  " << C1 << std::endl;
-	summaryFile << "# C2      =  " << C2 << std::endl;
+	//summaryFile << "# C2      =  " << C2 << std::endl;
 
-	summaryFile.close();*/
+	summaryFile.close();
 	std::ofstream myfile, file2;
 	myfile.open("example.txt");
 	file2.open("delta.txt");
@@ -209,9 +209,9 @@ void Deliverer::solve_problem()
 		
 		for (int i = 0; i < k; i++)
 		{
-			std::cout << iterator << ": " << T << " - " << i << std::endl;
+			//std::cout << iterator << ": " << T << " - " << i << std::endl;
 			std::vector<int> neighbor = modify_solution(solution);
-			printf_sol(neighbor);
+			//printf_sol(neighbor);
 			double score = goal_Function(neighbor);
 			double delta = score - gf_solution;
 
@@ -238,16 +238,16 @@ void Deliverer::solve_problem()
 			myfile << iterator << " " << T << " " << gf_solution << " " << best_goal_function << std::endl;
 		}
 		T *= alfa;
-		//plotFile << goal_Function(best_Solution) << std::endl;
+		plotFile << goal_Function(best_Solution) << std::endl;
 	}
 
-	/*summaryFile.open(filename, std::ofstream::app);
+	summaryFile.open(filename, std::ofstream::app);
 	summaryFile << "BEST SOLUTION:" << std::endl;
 	printSolToFile(best_Solution, summaryFile);
 	summaryFile << "GOAL FUNCTION:" << std::endl << goal_Function(best_Solution) << std::endl;
 
 	summaryFile.close();
-	plotFile.close();*/
+	plotFile.close();
 	myfile.close();
 	file2.close();
 }

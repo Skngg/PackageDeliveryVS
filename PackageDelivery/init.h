@@ -5,8 +5,10 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <random>
 
-void initFromFile(std::vector<Point>& _points, int n);
+void initFromFile(std::vector<Package>& _packs);
 std::vector<std::vector<int>> costMatrixReadCSV();
+void generatePackages(int maxP, int nodes);
 
 #endif
