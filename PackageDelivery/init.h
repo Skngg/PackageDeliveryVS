@@ -6,8 +6,8 @@
 #include <string>
 #include <sstream>
 #include <random>
-#define P_FILENAME "../Datasets/PACKAGES0.txt"
-#define M_FILENAME "../Datasets/DATA0.CSV"
+#define P_FILENAME "../Datasets/PACKAGES2.txt"
+#define M_FILENAME "../Datasets/DATA2.CSV"
 
 void initFromFile(std::vector<Package>& _packs);
 std::vector<std::vector<int>> costMatrixReadCSV();

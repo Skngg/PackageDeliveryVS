@@ -8,8 +8,8 @@ Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package>
 	init(matrix_, packages_);
 };
 ///////////////////////////////////////////
-Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_, double t_min, double t_begin, double alfa_, int k_iter, double C1_not_taken)
-	:cost_Matrix(matrix_), org_Packages(packages_), T_min(t_min), T_begin(t_begin), alfa(alfa_), k(k_iter), C1(C1_not_taken)
+Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_, double t_min, double t_begin, double alfa_, int k_iter, double C1_not_taken,int maxLoad_)
+	:cost_Matrix(matrix_), org_Packages(packages_), T_min(t_min), T_begin(t_begin), alfa(alfa_), k(k_iter), C1(C1_not_taken), maxLoad(maxLoad_)
 {
 	init(matrix_, packages_);
 }
@@ -130,7 +130,7 @@ double Deliverer::goal_Function(std::vector<int> solution_)
 		}
 	}
 
-	
+	how_many_pack_delivered = taken;
 	result += C1 * (org_Packages.size() - taken);
 	return result;
 }
@@ -170,13 +170,15 @@ void Deliverer::solve_problem()
 	summaryFile << "# alfa    =  " << alfa << std::endl;
 	summaryFile << "# k       =  " << k << std::endl;
 	summaryFile << "# C1      =  " << C1 << std::endl;
-
+	
+	
 	summaryFile.close();
 	/*std::ofstream myfile, file2;
 	myfile.open("example.txt");
 	file2.open("delta.txt");
 	myfile << "Iterator T GF Best_GF" << std::endl;
 	int iterator = 0;*/
+	clock_t begin = clock();
 	double T = T_begin;
 	while (T > T_min)
 	{
@@ -216,11 +218,15 @@ void Deliverer::solve_problem()
 		T *= alfa;
 		
 	}
+	clock_t end = clock();
+	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
 	summaryFile.open(filename, std::ofstream::app);
 	summaryFile << "BEST SOLUTION:" << std::endl;
 	printSolToFile(best_Solution, summaryFile);
 	summaryFile << "GOAL FUNCTION:" << std::endl << goal_Function(best_Solution) << std::endl;
+	summaryFile << "NUMBER OF DELIVERED PACKAGES: " << how_many_pack_delivered << " / " << org_Packages.size() << std::endl;
+	summaryFile << "TIME: " << elapsed_secs << " [s]" << std::endl;
 
 	summaryFile.close();
 	plotFile.close();
