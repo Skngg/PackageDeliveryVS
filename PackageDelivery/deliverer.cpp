@@ -13,8 +13,8 @@ Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package>
 	init(matrix_, packages_);
 };
 ///////////////////////////////////////////
-Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_, double t_min, double t_begin, double alfa_, int k_iter, double C1_not_taken, double C2_taken)
-	:cost_Matrix(matrix_), org_Packages(packages_), T_min(t_min), T_begin(t_begin), alfa(alfa_), k(k_iter), C1(C1_not_taken), C2(C2_taken)
+Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_, double t_min, double t_begin, double alfa_, int k_iter, double C1_not_taken)
+	:cost_Matrix(matrix_), org_Packages(packages_), T_min(t_min), T_begin(t_begin), alfa(alfa_), k(k_iter), C1(C1_not_taken)
 {
 	init(matrix_, packages_);
 }
@@ -127,17 +127,28 @@ double Deliverer::goal_Function(std::vector<int> solution_)
 	for (auto it = solution_.begin(); it != solution_.end(); it++)
 	{
 		auto packages_in_point = points.at(*it).getPackages();
+
+		auto ptr = std::find_if(loadPackage.begin(), loadPackage.end(), [it](Package pack) {return pack.getDestination() == *it; });
+		while (ptr != loadPackage.end())
+		{
+			loadPackage.erase(ptr);
+			ptr = std::find_if(loadPackage.begin(), loadPackage.end(), [it](Package pack) {return pack.getDestination() == *it; });
+		}
+
 		auto part_end = find(it + 1, solution_.end(), *it);
 		if (packages_in_point.size() > 0)
 		{
 			for (auto& pack : packages_in_point)
 			{
-				auto dest = find(it, part_end, pack.getDestination());
-				if (dest!=part_end)
+				if (loadPackage.size() < maxLoad)
 				{
-					taken++;
-					loadPackage.push_back(pack);
-					deletePackage(pack);
+					auto dest = find(it, part_end, pack.getDestination());
+					if (dest != part_end)
+					{
+						taken++;
+						loadPackage.push_back(pack);
+						deletePackage(pack);
+					}
 				}
 			}
 			
@@ -396,6 +407,19 @@ double Deliverer::random_01()
 int Deliverer::random_point()
 {
 	return random_in_range(0, points.size() - 1);
+}
+////////////////////////////////////////////////////////////////
+bool Deliverer::changeProbabiliti(double P1_, double P2_, double P3_, double P4_)
+{
+	if (P1_ + P2_ + P3_ + P4_ != 1)return false;
+	else
+	{
+		P1_insert_additional_waypoint = P1_;
+		P2_erase_one_point = P2_;
+		P3_swap_points = P3_;
+		P4_change_one_point = P4_;
+		return true;
+	}
 }
 #pragma endregion
 ///////////////////////////////////////////////////////////////

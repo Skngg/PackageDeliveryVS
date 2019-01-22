@@ -24,7 +24,6 @@ int main()
 	double alfa = 0.999;
 	int  k = 1;
 	double C1 = 50;
-	double C2 = 60;
 	/////////////////////////////
 	std::vector<std::vector<int>> cost_matrix = {
 		{5, 1, 20, 20, 1},
@@ -40,8 +39,8 @@ int main()
 		Package(4,0)
 	};
 	/////////////////////////////////////
-	Deliverer test(cost_matrix, packages, T_min, T_0, alfa, k, C1, C2);
-
+	Deliverer test(cost_matrix, packages, T_min, T_0, alfa, k, C1);
+	test.setMaxLoad(1);
 	std::vector<int> x = { 4,0,4,2,4,2,4 };
 	test.print_Cost_Matrix();
 	test.print_Org_Packages();
@@ -60,8 +59,6 @@ int main()
 	test.printf_sol(test.get_best_Solution());
 	std::cout << "GOAL FUNCTION: " << test.goal_Function(test.get_best_Solution())<< std::endl;
 	std::cout << "TIME: " << elapsed_secs << " [s]" << std::endl;
-
-	
 	
 
 	std::cout << "KONIEC PROGRAMU" << std::endl;

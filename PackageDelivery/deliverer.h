@@ -17,7 +17,7 @@ private:
 	double alfa = 0.999;
 	int k = 10;
 	double C1 = 25;
-	double C2 = 30;
+	int maxLoad = 5;
 
 	double P1_insert_additional_waypoint = 0.10;
 	double P2_erase_one_point = 0.15;
@@ -33,7 +33,7 @@ private:
 	double gf_solution;
 
 public:
-	Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_, double t_min, double t_begin, double alfa, int k_iter, double C1_not_taken, double C2_taken);
+	Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_, double t_min, double t_begin, double alfa, int k_iter, double C1_not_taken);
 	Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_);
 	void init(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_);
 	~Deliverer();
@@ -43,6 +43,15 @@ public:
 	std::vector<int> modify_solution(std::vector<int>& currentSolution);
 	std::vector<int> generate_start_solution();
 	
+	 void setTmin(double tmin_) { T_min = tmin_; }
+	 void setTbegin(double tbegin) { T_begin = tbegin; }
+	 void setAlfa(double alfa_) { alfa = alfa_; }
+	 void setK(int k_) { k = k_; }
+	 void setCostNotTakenPackage(double c1_) { C1 = c1_; }
+	 void setMaxLoad(int load) { maxLoad = load; }
+
+	 bool changeProbabiliti(double, double, double, double);
+
 	Package get_Package_By_Id(int id);
 	void add_Package_By_Pack(Package pack_);
 	void add_Package_By_Id(int id_);
