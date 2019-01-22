@@ -25,6 +25,7 @@ int main()
 	int  k = 4;
 	double C1 = 1000;
 	int maxLoad = 20;
+	
 
 	std::vector<Package> packages;
 	std::vector<std::vector<int>> cost_matrix = costMatrixReadCSV();
@@ -32,6 +33,7 @@ int main()
 
 
 	Deliverer test(cost_matrix, packages, T_min, T_0, alfa, k, C1,maxLoad);
+	test.changeProbabiliti(0.35, 0.35, 0.15, 0.15); 
 
 	test.print_Cost_Matrix();
 	test.print_Org_Packages();
