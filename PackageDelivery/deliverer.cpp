@@ -1,10 +1,5 @@
 #include "deliverer.h"
-#include <stdlib.h>
-#include <algorithm>
-#include <iostream>
-#include <iomanip>
-#include <chrono>
-#include <fstream>
+
 
 #pragma region KONSTRUKTORY
 Deliverer::Deliverer(std::vector<std::vector<int>> matrix_, std::vector<Package> packages_)

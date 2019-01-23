@@ -19,13 +19,12 @@ int main()
 
 
 	/*USTAWIANIE PARAMETRÓW*/
-	double T_0 = 10;
+	double T_0 = 1000;
 	double T_min = 0.0001;
 	double alfa = 0.999;
 	int  k = 4;
-	double C1 = 1000;
-	int maxLoad = 20;
-	
+	double C1 = 400;
+	int maxLoad = 40;
 
 	std::vector<Package> packages;
 	std::vector<std::vector<int>> cost_matrix = costMatrixReadCSV();
@@ -42,7 +41,8 @@ int main()
 	test.setStartSolution(test.generate_start_solution());
 	test.print_Solution();
 	std::cout << "GF: " << test.goal_Function(test.get_solution()) << std::endl;
-
+	auto t = std::time(nullptr);
+	auto _time = *std::localtime(&t);
 	clock_t begin = clock();
 	test.solve_problem();
 	clock_t end = clock();
@@ -54,7 +54,9 @@ int main()
 	std::cout << "GOAL FUNCTION: " << test.goal_Function(test.get_best_Solution())<< std::endl;
 	std::cout << "TIME: " << elapsed_secs << " [s]" << std::endl;
 	
-
+	std::cout << "OUTPUT FILES:" << std::endl;
+	std::cout << "/OutputFiles/plot" << std::put_time(&_time, "%H-%M") << ".csv" << std::endl;
+	std::cout << "/OutputFiles/summary" << std::put_time(&_time, "%H-%M") << ".txt" << std::endl;
 	std::cout << "KONIEC PROGRAMU" << std::endl;
 	return 0;
 }
