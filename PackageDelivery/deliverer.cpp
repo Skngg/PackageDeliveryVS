@@ -175,6 +175,7 @@ void Deliverer::solve_problem()
 	summaryFile << "# alfa    =  " << alfa << std::endl;
 	summaryFile << "# k       =  " << k << std::endl;
 	summaryFile << "# C1      =  " << C1 << std::endl;
+	summaryFile << "# maxLoad =  " << maxLoad << std::endl;
 	
 	
 	summaryFile.close();
@@ -232,7 +233,7 @@ void Deliverer::solve_problem()
 	summaryFile << "GOAL FUNCTION:" << std::endl << goal_Function(best_Solution) << std::endl;
 	summaryFile << "NUMBER OF DELIVERED PACKAGES: " << how_many_pack_delivered << " / " << org_Packages.size() << std::endl;
 	summaryFile << "TIME: " << elapsed_secs << " [s]" << std::endl;
-
+	print_Route(summaryFile, best_Solution);
 	summaryFile.close();
 	plotFile.close();
 	//myfile.close();
@@ -492,7 +493,75 @@ void Deliverer::createSummary(std::ofstream& file, std::vector<std::pair<int, st
 {
 
 }
+///////////////////////////////////////////////////////////
+void Deliverer::print_Route(std::ostream& os, std::vector<int>& solution_)
+{
+	reset();
+	//if (solution_.size() < 2) return C1 * org_Packages.size();
+	double result = 0;
+	int taken = 0;
+	std::vector<Package> loadPackage;
 
+	//for (int i = 1; i < solution_.size(); i++)
+	//{
+	//	result += cost_Matrix.at(solution_.at(i - 1)).at(solution_.at(i));
+	//}
+
+	for (auto it = solution_.begin(); it != solution_.end(); it++)
+	{
+		auto packages_in_point = points.at(*it).getPackages();
+
+		auto ptr = std::find_if(loadPackage.begin(), loadPackage.end(), [it](Package pack) {return pack.getDestination() == *it; });
+		while (ptr != loadPackage.end())
+		{
+			loadPackage.erase(ptr);
+			ptr = std::find_if(loadPackage.begin(), loadPackage.end(), [it](Package pack) {return pack.getDestination() == *it; });
+		}
+
+		auto part_end = find(it + 1, solution_.end(), *it);
+		if (packages_in_point.size() > 0)
+		{
+			for (auto& pack : packages_in_point)
+			{
+				if (loadPackage.size() < maxLoad)
+				{
+					auto dest = find(it, part_end, pack.getDestination());
+					if (dest != part_end)
+					{
+						taken++;
+						loadPackage.push_back(pack);
+						deletePackage(pack);
+					}
+				}
+			}
+
+		}
+		os << *it << ":";
+		for (auto& pack : loadPackage)
+		{
+			os << pack.getID() << " ";
+		}
+		os << std::endl;
+	}
+	os << "NO DELIVERED PACKAGES: ";
+	for (auto& point: points)
+	{
+		auto packages = point.getPackages();
+		if (packages.size() == 0) continue;
+		else
+		{
+			for (auto& pack : packages)
+			{
+				os << pack.getID() << " ";
+			}
+			os << std::endl;
+		}
+		
+	}
+	//how_many_pack_delivered = taken;
+	result += C1 * (org_Packages.size() - taken);
+	//return result;
+}
 #pragma endregion
 
  

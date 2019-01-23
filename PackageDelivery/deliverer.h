@@ -70,6 +70,7 @@ public:
 	std::vector<int> swap_2_points(std::vector<int>& currentSolution);
 	std::vector<int> change_one_point(std::vector<int>& currentSolution,int whereChange_);
 	//PRINT///////////////////////////////////////////////////////////////
+	void print_Route(std::ostream& os, std::vector<int>& currentSolution);
 	void print_Org_Packages();
 	void print_Cost_Matrix();
 	void print_Solution();
